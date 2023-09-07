@@ -4,8 +4,10 @@ use crate::{
 	cli::{Cli, Subcommand},
 	service,
 };
+
 use frame_benchmarking_cli::{BenchmarkCmd, ExtrinsicFactory, SUBSTRATE_REFERENCE_HARDWARE};
-use node_template_runtime::{Block, EXISTENTIAL_DEPOSIT};
+use lunes_runtime::constants::currency::*;
+use lunes_runtime::{Block};
 use sc_cli::SubstrateCli;
 use sc_service::PartialComponents;
 use sp_keyring::Sr25519Keyring;
@@ -160,7 +162,7 @@ pub fn run() -> sc_cli::Result<()> {
 							Box::new(TransferKeepAliveBuilder::new(
 								client.clone(),
 								Sr25519Keyring::Alice.to_account_id(),
-								EXISTENTIAL_DEPOSIT,
+								EXISTENTIAL_DEPOSIT_LUNES,
 							)),
 						]);
 
