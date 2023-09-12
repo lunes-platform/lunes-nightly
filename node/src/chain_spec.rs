@@ -133,6 +133,7 @@ fn testnet_genesis(
 	endowed_accounts: Vec<AccountId>,
 	_enable_println: bool,
 ) -> RuntimeGenesisConfig {
+
 	RuntimeGenesisConfig {
 		system: SystemConfig {
 			// Add Wasm runtime to storage.
@@ -152,7 +153,10 @@ fn testnet_genesis(
 		},
 		democracy: DemocracyConfig::default(),
 		council: CouncilConfig::default(),
-		technical_committee: TechnicalCommitteeConfig::default(),
+		technical_committee: TechnicalCommitteeConfig {
+			members: endowed_accounts,
+			..Default::default()
+		},
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
 		sudo: SudoConfig {
@@ -172,17 +176,16 @@ fn lunes_genesis(
 	_enable_println: bool,
 ) -> RuntimeGenesisConfig {
 
-	//let mut properties = sc_chain_spec::Properties::new();
-	//properties.insert("tokenSymbol".into(), "LUNES".into());
-	//properties.insert("tokenDecimals".into(), 8.into());
-	//properties.insert("ss58Format".into(), 42.into());
-
 	let mut genesis_issuance = TOTAL_INITIAL_ISSUANCE_LUNES;
 	for balance in endowed_accounts.clone() {
 		genesis_issuance -= balance.1;
 	}
 
 	endowed_accounts.push((root_key.clone(), genesis_issuance));
+	let council: Vec<_> = endowed_accounts
+		.iter()
+		.map(|address| address.0.clone())
+		.collect();
 	//endowed_accounts.push((root_key.clone(), genesis_issuance));
 	RuntimeGenesisConfig {
 		system: SystemConfig {
@@ -203,7 +206,10 @@ fn lunes_genesis(
 		},
 		democracy: DemocracyConfig::default(),
 		council: CouncilConfig::default(),
-		technical_committee: TechnicalCommitteeConfig::default(),
+		technical_committee: TechnicalCommitteeConfig {
+			members: council,
+			..Default::default()
+		},
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
 		sudo: SudoConfig {
