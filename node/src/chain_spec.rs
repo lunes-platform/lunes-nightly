@@ -1,5 +1,6 @@
 use lunes_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GrandpaConfig, RuntimeGenesisConfig, Signature,Balance,
+	CouncilConfig,DemocracyConfig,TechnicalCommitteeConfig,
 	SudoConfig, SystemConfig, WASM_BINARY,
 };
 use sc_service::ChainType;
@@ -149,6 +150,11 @@ fn testnet_genesis(
 			authorities: initial_authorities.iter().map(|x| (x.1.clone(), 1)).collect(),
 			..Default::default()
 		},
+		democracy: DemocracyConfig::default(),
+		council: CouncilConfig::default(),
+		technical_committee: TechnicalCommitteeConfig::default(),
+		treasury: Default::default(),
+		alliance_motion: Default::default(),
 		sudo: SudoConfig {
 			// Assign network admin rights.
 			key: Some(root_key),
@@ -177,7 +183,6 @@ fn lunes_genesis(
 	}
 
 	endowed_accounts.push((root_key.clone(), genesis_issuance));
-
 	//endowed_accounts.push((root_key.clone(), genesis_issuance));
 	RuntimeGenesisConfig {
 		system: SystemConfig {
@@ -196,6 +201,11 @@ fn lunes_genesis(
 			authorities: initial_authorities.iter().map(|x| (x.1.clone(), 1)).collect(),
 			..Default::default()
 		},
+		democracy: DemocracyConfig::default(),
+		council: CouncilConfig::default(),
+		technical_committee: TechnicalCommitteeConfig::default(),
+		treasury: Default::default(),
+		alliance_motion: Default::default(),
 		sudo: SudoConfig {
 			// Assign network admin rights.
 			key: Some(root_key),
