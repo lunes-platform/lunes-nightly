@@ -11,5 +11,8 @@ pub mod currency {
     pub const INITIAL_COLLATOR_STAKING: u128 = 50_000 * UNIT;
     pub const EXISTENTIAL_DEPOSIT_LUNES: u128 = 50_000;
     pub const COLLATOR_ADDITIONAL: u128 = 10 * UNIT;
+    pub const fn deposit(items: u32, bytes: u32) -> u128 {
+		items as u128 * 15 * UNIT + (bytes as u128) * 6 * UNIT
+	}
 
 }
