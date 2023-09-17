@@ -1,12 +1,8 @@
-[profile.release]
-panic = "unwind"
-
-[profile.production]
-inherits = "release"
 [workspace]
 members = [
     "node",
     "pallets/common",
     "runtime",
 ]
-
+[profile.release]
+panic = "unwind"
