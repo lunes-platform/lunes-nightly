@@ -1024,6 +1024,24 @@ impl pallet_indices::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type WeightInfo = pallet_indices::weights::SubstrateWeight<Runtime>;
 }
+
+parameter_types! {
+	 // This parameter is used to configure a nick's minimum length.
+	pub const MinLengthNicks: u32 = 4;
+	 // This parameter is used to configure a nick's maximum length.n.
+	pub const MaxLengthNicks: u32 = 50;
+	// The amount required to reserve a nick.
+	pub const NickReservationFee: Balance = 1 * UNIT;
+}
+impl pallet_nicks::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+    type Currency = Balances;
+    type ReservationFee = NickReservationFee;
+    type Slashed = Treasury;
+    type ForceOrigin = EnsureRoot<AccountId>;
+    type MinLength = MinLengthNicks;
+    type MaxLength = MaxLengthNicks;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1067,6 +1085,7 @@ construct_runtime!(
 		Recovery: pallet_recovery,
 		Identity: pallet_identity,
 		Indices: pallet_indices,
+		Nicks: pallet_nicks,
 	}
 );
 
@@ -1129,6 +1148,7 @@ mod benches {
 		[pallet_recovery, Recovery]
 		[pallet_identity, Identity]
 		[pallet_indices, Indices]
+		[pallet_nicks,Nicks]
 	);
 }
 

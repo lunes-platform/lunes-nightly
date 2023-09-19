@@ -3968,6 +3968,7 @@ dependencies = [
  "pallet-insecure-randomness-collective-flip",
  "pallet-nfts",
  "pallet-nfts-runtime-api",
+ "pallet-nicks",
  "pallet-offences",
  "pallet-offences-benchmarking",
  "pallet-preimage",
@@ -5003,6 +5004,20 @@ dependencies = [
  "pallet-nfts",
  "parity-scale-codec",
  "sp-api",
+]
+
+[[package]]
+name = "pallet-nicks"
+version = "4.0.0-dev"
+source = "git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.40#98f2e3451c9143278ec53c6718940aeabcd3b68a"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
