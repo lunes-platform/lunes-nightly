@@ -73,6 +73,7 @@ sc-rpc-spec-v2 = { version = "0.10.0-dev", git = "https://github.com/paritytech/
 # These dependencies are used for runtime benchmarking
 frame-benchmarking = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+pallet-assets = { version = "4.0.0-dev", default-features = false,  git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 
 # Local Dependencies
 lunes-runtime = { version = "4.0.0-dev", path = "../runtime" }

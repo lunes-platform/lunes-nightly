@@ -322,6 +322,9 @@ fn testnet_genesis(
 		},
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
+		assets: pallet_assets::GenesisConfig {
+			..Default::default()
+		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
 			key: Some(root_key),
