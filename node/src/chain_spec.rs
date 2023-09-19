@@ -3,7 +3,7 @@ use hex_literal::hex;
 use lunes_runtime::{
 	AccountId, BabeConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig,
 	SystemConfig, WASM_BINARY, BABE_GENESIS_EPOCH_CONFIG, SessionConfig, StakingConfig, SessionKeys,
-	constants::currency::*, StakerStatus, ImOnlineConfig,Balance,
+	constants::currency::*, StakerStatus, ImOnlineConfig,Balance,IndicesConfig,
 	CouncilConfig,DemocracyConfig,TechnicalCommitteeConfig,
 };
 use sc_service::ChainType;
@@ -286,6 +286,7 @@ fn testnet_genesis(
 			// Configure endowed accounts with initial balance of 1 << 60.
 			balances: endowed_accounts,
 		},
+		indices: IndicesConfig { indices: vec![] },
 		babe: BabeConfig {
 			authorities: vec![],
 			epoch_config: Some(BABE_GENESIS_EPOCH_CONFIG),

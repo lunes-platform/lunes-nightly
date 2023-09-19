@@ -9,6 +9,9 @@ use sp_runtime::{
 	MultiSignature, OpaqueExtrinsic,
 };
 
+/// The type for looking up accounts. We don't expect more than 4 billion of them.
+pub type AccountIndex = u32;
+
 /// Type used for expressing timestamp.
 pub type Moment = u64;
 

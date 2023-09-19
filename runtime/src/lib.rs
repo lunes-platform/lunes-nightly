@@ -43,7 +43,7 @@ use sp_std::prelude::*;
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 
-use node_primitives::Moment;
+use node_primitives::{AccountIndex, Moment};
 use constants::{currency::*, time::*};
 
 #[cfg(any(feature = "std", test))]
@@ -1012,6 +1012,18 @@ impl pallet_identity::Config for Runtime {
 	type RegistrarOrigin = EnsureRootOrHalfCouncil;
 	type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
 }
+
+parameter_types! {
+	pub const IndexDeposit: Balance = 1 * UNIT;
+}
+
+impl pallet_indices::Config for Runtime {
+	type AccountIndex = AccountIndex;
+	type Currency = Balances;
+	type Deposit = IndexDeposit;
+	type RuntimeEvent = RuntimeEvent;
+	type WeightInfo = pallet_indices::weights::SubstrateWeight<Runtime>;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1054,6 +1066,7 @@ construct_runtime!(
 		Nfts: pallet_nfts,
 		Recovery: pallet_recovery,
 		Identity: pallet_identity,
+		Indices: pallet_indices,
 	}
 );
 
@@ -1115,6 +1128,7 @@ mod benches {
 		[pallet_nfts, Nfts]
 		[pallet_recovery, Recovery]
 		[pallet_identity, Identity]
+		[pallet_indices, Indices]
 	);
 }
 
