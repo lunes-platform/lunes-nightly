@@ -967,6 +967,51 @@ impl pallet_nfts::Config for Runtime {
 	type CreateOrigin = AsEnsureOriginWithArg<EnsureSigned<AccountId>>;
 	type Locker = ();
 }
+
+parameter_types! {
+	pub const ConfigDepositBase: Balance = 5 * UNIT;
+	pub const FriendDepositFactor: Balance = 50 * NANOUNIT;
+	pub const MaxFriends: u16 = 9;
+	pub const RecoveryDeposit: Balance = 5 * UNIT;
+}
+
+impl pallet_recovery::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type WeightInfo = pallet_recovery::weights::SubstrateWeight<Runtime>;
+	type RuntimeCall = RuntimeCall;
+	type Currency = Balances;
+	type ConfigDepositBase = ConfigDepositBase;
+	type FriendDepositFactor = FriendDepositFactor;
+	type MaxFriends = MaxFriends;
+	type RecoveryDeposit = RecoveryDeposit;
+}
+type EnsureRootOrHalfCouncil = EitherOfDiverse<
+	EnsureRoot<AccountId>,
+	pallet_collective::EnsureProportionMoreThan<AccountId, CouncilCollective, 1, 2>,
+>;
+parameter_types! {
+	pub const BasicDeposit: Balance = 10 * UNIT;       // 258 bytes on-chain
+	pub const FieldDeposit: Balance = 250 * NANOUNIT;        // 66 bytes on-chain
+	pub const SubAccountDeposit: Balance = 2 * UNIT;   // 53 bytes on-chain
+	pub const MaxSubAccounts: u32 = 100;
+	pub const MaxAdditionalFields: u32 = 100;
+	pub const MaxRegistrars: u32 = 20;
+}
+
+impl pallet_identity::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Currency = Balances;
+	type BasicDeposit = BasicDeposit;
+	type FieldDeposit = FieldDeposit;
+	type SubAccountDeposit = SubAccountDeposit;
+	type MaxSubAccounts = MaxSubAccounts;
+	type MaxAdditionalFields = MaxAdditionalFields;
+	type MaxRegistrars = MaxRegistrars;
+	type Slashed = Treasury;
+	type ForceOrigin = EnsureRootOrHalfCouncil;
+	type RegistrarOrigin = EnsureRootOrHalfCouncil;
+	type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1007,6 +1052,8 @@ construct_runtime!(
 		RandomnessCollectiveFlip: pallet_insecure_randomness_collective_flip,
 		Assets: pallet_assets,
 		Nfts: pallet_nfts,
+		Recovery: pallet_recovery,
+		Identity: pallet_identity,
 	}
 );
 
@@ -1066,6 +1113,8 @@ mod benches {
 		[pallet_contracts, Contracts]
 		[pallet_assets, Assets]
 		[pallet_nfts, Nfts]
+		[pallet_recovery, Recovery]
+		[pallet_identity, Identity]
 	);
 }
 

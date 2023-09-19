@@ -68,6 +68,8 @@ pallet-contracts-primitives = { version = "7.0.0", default-features = false, git
 pallet-assets = { version = "4.0.0-dev", default-features = false,  git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-nfts = { version = "4.0.0-dev", default-features = false,  git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-nfts-runtime-api = { version = "4.0.0-dev", default-features = false,  git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+pallet-recovery = { version = "4.0.0-dev", default-features = false,  git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+pallet-identity = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 
 # Used for the node template's RPCs
 frame-system-rpc-runtime-api = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
@@ -145,6 +147,8 @@ std = [
 	"pallet-assets/std",
 	"pallet-nfts/std",
 	"pallet-nfts-runtime-api/std",
+	"pallet-recovery/std",
+	"pallet-identity/std",
 ]
 runtime-benchmarks = [
 	"frame-benchmarking/runtime-benchmarks",
@@ -169,6 +173,8 @@ runtime-benchmarks = [
 	"pallet-contracts/runtime-benchmarks",
 	"pallet-assets/runtime-benchmarks",
 	"pallet-nfts/runtime-benchmarks",
+	"pallet-recovery/runtime-benchmarks",
+	"pallet-identity/runtime-benchmarks",
 ]
 try-runtime = [
 	"frame-try-runtime/try-runtime",
@@ -193,5 +199,7 @@ try-runtime = [
 	"pallet-contracts/try-runtime",
 	"pallet-assets/try-runtime",
 	"pallet-nfts/try-runtime",
+	"pallet-recovery/try-runtime",
+	"pallet-identity/try-runtime",
 ]
 
