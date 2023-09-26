@@ -320,7 +320,7 @@ fn testnet_genesis(
 		technical_committee: TechnicalCommitteeConfig {
 			members: council,
 			..Default::default()
-		},
+		},		
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
 		assets: pallet_assets::GenesisConfig {
