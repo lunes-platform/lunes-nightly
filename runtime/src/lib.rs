@@ -1046,9 +1046,9 @@ impl pallet_indices::Config for Runtime {
 
 parameter_types! {
 	 // This parameter is used to configure a nick's minimum length.
-	pub const MinLengthNicks: u32 = 4;
+	pub const MinLengthNicks: u32 = 2;
 	 // This parameter is used to configure a nick's maximum length.n.
-	pub const MaxLengthNicks: u32 = 50;
+	pub const MaxLengthNicks: u32 = 150;
 	// The amount required to reserve a nick.
 	pub const NickReservationFee: Balance = 1 * UNIT;
 }
