@@ -60,6 +60,12 @@ pub fn authority_keys_from_seed(s: &str) -> (AccountId, AccountId, BabeId, Grand
 }
 
 pub fn development_config() -> Result<ChainSpec, String> {
+	// Give your base currency a unit name and decimal places
+	let mut properties = sc_chain_spec::Properties::new();
+	properties.insert("tokenSymbol".into(), "LUNES".into());
+	properties.insert("tokenDecimals".into(), 8.into());
+	properties.insert("ss58Format".into(), 57.into());
+
 	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;
 	let mut balances = vec![];
 	balances.push((get_account_id_from_seed::<sr25519::Public>("Bob").clone(), INITIAL_COLLATOR_STAKING));
@@ -88,10 +94,10 @@ pub fn development_config() -> Result<ChainSpec, String> {
 		// Telemetry
 		None,
 		// Protocol ID
-		None,
+		Some("lunes-development"),
 		None,
 		// Properties
-		None,
+		Some(properties),
 		// Extensions
 		None,
 	))
