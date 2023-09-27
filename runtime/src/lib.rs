@@ -1061,6 +1061,11 @@ impl pallet_nicks::Config for Runtime {
     type MinLength = MinLengthNicks;
     type MaxLength = MaxLengthNicks;
 }
+impl pallet_atomic_swap::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type SwapAction = pallet_atomic_swap::BalanceSwapAction<AccountId, Balances>;
+	type ProofLimit = ConstU32<1024>;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1105,6 +1110,7 @@ construct_runtime!(
 		Identity: pallet_identity,
 		Indices: pallet_indices,
 		Nicks: pallet_nicks,
+		Swap:pallet_atomic_swap,
 	}
 );
 
@@ -1168,6 +1174,7 @@ mod benches {
 		[pallet_identity, Identity]
 		[pallet_indices, Indices]
 		[pallet_nicks,Nicks]
+		[pallet_atomic_swap, Swap]
 	);
 }
 
