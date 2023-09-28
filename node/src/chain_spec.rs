@@ -143,10 +143,13 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 
 pub fn staging_network_config() -> ChainSpec {
 	let boot_nodes = vec![];
-
+	let mut properties = sc_chain_spec::Properties::new();
+	properties.insert("tokenSymbol".into(), "LUNES".into());
+	properties.insert("tokenDecimals".into(), 8.into());
+	properties.insert("ss58Format".into(), 57.into());
 	ChainSpec::from_genesis(
-		"Substrate Stencil",
-		"stencil_network",
+		"Lunes Nigthly",
+		"local_node",
 		ChainType::Live,
 		staging_network_config_genesis,
 		boot_nodes,
@@ -154,9 +157,11 @@ pub fn staging_network_config() -> ChainSpec {
 			TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
 				.expect("Staging telemetry url is valid; qed"),
 		),
+		// Protocol ID
+		Some("lunes-mainnet"),
 		None,
-		None,
-		None,
+		// Properties
+		Some(properties),
 		Default::default(),
 	)
 }
