@@ -332,6 +332,9 @@ fn testnet_genesis(
 		assets: pallet_assets::GenesisConfig {
 			..Default::default()
 		},
+		scored_pool: pallet_scored_pool::GenesisConfig {
+			..Default::default()
+		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
 			key: Some(root_key),

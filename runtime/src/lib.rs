@@ -62,7 +62,7 @@ pub use frame_support::{
 		ConstU128, ConstU32, ConstU64, ConstU8, KeyOwnerProofSystem, Randomness, StorageInfo,
 		U128CurrencyToVote, Contains,Everything,Nothing,ConstBool,EqualPrivilegeOnly,EitherOfDiverse,
 		AsEnsureOriginWithArg,Currency as FrameCurrency,Imbalance,
-		tokens::{nonfungibles_v2::Inspect},
+		tokens::{nonfungibles_v2::Inspect},ChangeMembers,InitializeMembers,
 	},
 	weights::{
 		constants::{
@@ -1061,11 +1061,31 @@ impl pallet_nicks::Config for Runtime {
     type MinLength = MinLengthNicks;
     type MaxLength = MaxLengthNicks;
 }
+
 impl pallet_atomic_swap::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type SwapAction = pallet_atomic_swap::BalanceSwapAction<AccountId, Balances>;
 	type ProofLimit = ConstU32<1024>;
 }
+
+parameter_types! {
+	pub const CandidateDeposit: u64 = 25;
+}
+
+
+impl pallet_scored_pool::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type KickOrigin = EnsureSigned<AccountId>;
+	type MembershipInitialized =();//to do
+	type MembershipChanged = (); //to do
+	type Currency = Balances;
+	type CandidateDeposit = CandidateDeposit;
+	type Period = SignedPhase;
+	type Score = u64;
+	type ScoreOrigin = EnsureSigned<AccountId>;
+	type MaximumMembers = ConstU32<10>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1111,6 +1131,7 @@ construct_runtime!(
 		Indices: pallet_indices,
 		Nicks: pallet_nicks,
 		Swap:pallet_atomic_swap,
+		ScoredPool: pallet_scored_pool,
 	}
 );
 
@@ -1175,6 +1196,7 @@ mod benches {
 		[pallet_indices, Indices]
 		[pallet_nicks,Nicks]
 		[pallet_atomic_swap, Swap]
+		[pallet_scored_pool, ScoredPool]
 	);
 }
 

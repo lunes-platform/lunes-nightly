@@ -72,10 +72,8 @@ pallet-recovery = { version = "4.0.0-dev", default-features = false,  git = "htt
 pallet-identity = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-indices = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-nicks = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
-orml-oracle = { version = "0.4.1-dev", default-features = false, git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "polkadot-v0.9.40" }
 pallet-atomic-swap =  { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
-pallet-evm =  { version = "6.0.0-dev", default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-
+pallet-scored-pool =  { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "release-v0.9.40" }
 
 # Used for the node template's RPCs
@@ -159,9 +157,8 @@ std = [
 	"pallet-indices/std",
 	"pallet-nicks/std",
 	"polkadot-runtime-common/std",
-	"orml-oracle/std",
 	"pallet-atomic-swap/std",
-	"pallet-evm/std",
+	"pallet-scored-pool/std"
 ]
 runtime-benchmarks = [
 	"frame-benchmarking/runtime-benchmarks",
@@ -189,7 +186,6 @@ runtime-benchmarks = [
 	"pallet-recovery/runtime-benchmarks",
 	"pallet-identity/runtime-benchmarks",
 	"pallet-indices/runtime-benchmarks",
-	"pallet-evm/runtime-benchmarks",
 ]
 try-runtime = [
 	"frame-try-runtime/try-runtime",
@@ -218,8 +214,6 @@ try-runtime = [
 	"pallet-identity/try-runtime",
 	"pallet-indices/try-runtime",
 	"pallet-nicks/try-runtime",
-	"orml-oracle/try-runtime",
 	"pallet-atomic-swap/try-runtime",
-	"pallet-evm/try-runtime",
 ]
 
