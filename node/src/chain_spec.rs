@@ -331,7 +331,9 @@ fn testnet_genesis(
 		technical_committee: TechnicalCommitteeConfig {
 			members: council,
 			..Default::default()
-		},		
+		},
+		evm: Default::default(),
+		dynamic_fee: Default::default(),
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
 		assets: pallet_assets::GenesisConfig {

@@ -81,6 +81,10 @@ use pallet_transaction_payment::{CurrencyAdapter, Multiplier};
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 use pallet_nfts::PalletFeatures;
+use pallet_evm::{ EnsureAddressTruncated, HashedAddressMapping};
+pub mod precompiles;
+pub use precompiles::FrontierPrecompiles;
+use sp_core::U256;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -1086,6 +1090,57 @@ impl pallet_scored_pool::Config for Runtime {
 	type MaximumMembers = ConstU32<10>;
 }
 
+
+parameter_types! {
+	pub BlockGasLimit: U256 = U256::max_value();
+	pub WeightPerGas: Weight = Weight::from_parts(20_000, 0);
+	pub PrecompilesValue: FrontierPrecompiles<Runtime> = FrontierPrecompiles::<_>::new();
+}		
+
+#[cfg(not(feature = "beresheet-runtime"))]
+parameter_types! {
+	pub const EthChainId: u64 = 2021;
+}
+
+#[cfg(feature = "beresheet-runtime")]
+parameter_types! {
+	pub const EthChainId: u64 = 2022;
+}
+
+impl pallet_evm::Config for Runtime {
+	
+	type FeeCalculator = pallet_dynamic_fee::Pallet<Self>; //TO DO
+	type GasWeightMapping = pallet_evm::FixedGasWeightMapping<Self>;
+	type WeightPerGas = WeightPerGas;
+
+	type BlockHashMapping = pallet_evm::SubstrateBlockHashMapping<Self>;
+	type CallOrigin = EnsureAddressTruncated;
+
+	type WithdrawOrigin = EnsureAddressTruncated;
+	type AddressMapping = HashedAddressMapping<BlakeTwo256>;
+	type Currency = Balances;
+
+	type RuntimeEvent = RuntimeEvent;
+	type PrecompilesType = FrontierPrecompiles<Self>;
+	type PrecompilesValue = PrecompilesValue;
+	type ChainId = EthChainId; //TO DO
+	type BlockGasLimit = BlockGasLimit;
+	type Runner = pallet_evm::runner::stack::Runner<Self>;
+	type OnChargeTransaction = ();
+	type OnCreate = ();
+	type FindAuthor = ();//TO DO
+	type Timestamp = Timestamp;
+	type WeightInfo = ();
+}
+parameter_types! {
+	pub BoundDivision: U256 = U256::from(1024);
+}
+
+impl pallet_dynamic_fee::Config for Runtime {
+	type MinGasPriceBoundDivisor = BoundDivision;
+}
+
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1132,6 +1187,8 @@ construct_runtime!(
 		Nicks: pallet_nicks,
 		Swap:pallet_atomic_swap,
 		ScoredPool: pallet_scored_pool,
+		EVM: pallet_evm,
+		DynamicFee: pallet_dynamic_fee,	
 	}
 );
 
@@ -1197,6 +1254,8 @@ mod benches {
 		[pallet_nicks,Nicks]
 		[pallet_atomic_swap, Swap]
 		[pallet_scored_pool, ScoredPool]
+		[pallet_evm, EVM]
+		[pallet_dynamic_fee, DynamicFee]
 	);
 }
 
