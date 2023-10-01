@@ -242,8 +242,8 @@ fn staging_network_config_genesis() -> GenesisConfig {
 
 	// generated with secret: subkey inspect "$secret"/fir
 	let root_key: AccountId = hex![
-		// 5FemZuvaJ7wVy4S49X7Y9mj7FyTR4caQD5mZo2rL7MXQoXMi
-		"9eaf896d76b55e04616ff1e1dce7fc5e4a417967c17264728b3fd8fee3b12f3c"
+		// 5CDSekkWt3RG9MVda6LawudKNSNsyCapjpC18QqVRAdhV8kE
+		"06aa05ce13315a2f7ac9e63c362c9408c3f6c6b7a7185414e669b48c5c65bbcd"
 	]
 	.into();
 	//c<AccountId>, <Balnance>
