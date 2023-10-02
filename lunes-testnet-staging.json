@@ -3,7 +3,7 @@
   "id": "local_node",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/31.220.50.80/tcp/30333/p2p/12D3KooWAQaWuv8Ng7jxydotEkS7jX69i1vyhi9JU418RasVCZv5"
+    "/ip4/31.220.50.80/tcp/30333/p2p/12D3KooWGdT1sobUgpoqVRhPtdvWt25fVfgxqKKX2nt4FeZLyHbv"
   ],
   "telemetryEndpoints": [
     [
@@ -39,11 +39,11 @@
       "balances": {
         "balances": [
           [
-            "5CN5Tf3CP21CrnpiXQuWA3o2UouAidEWnADZTFqkVqhwtUUU",
+            "5F1eXQ6axx4avgwSYP1RY5Lnyqt1cgBFJRxDAFcsL7BK7saW",
             5000000000000
           ],
           [
-            "5CDSekkWt3RG9MVda6LawudKNSNsyCapjpC18QqVRAdhV8kE",
+            "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg",
             19995000000000000
           ]
         ]
@@ -52,7 +52,7 @@
         "multiplier": "1000000000000000000"
       },
       "sudo": {
-        "key": "5CDSekkWt3RG9MVda6LawudKNSNsyCapjpC18QqVRAdhV8kE"
+        "key": "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg"
       },
       "imOnline": {
         "keys": []
@@ -61,9 +61,9 @@
         "validatorCount": 3,
         "minimumValidatorCount": 3,
         "invulnerables": [
-          "5GwxVe4GAAhdgrrBwScAoCeEpKEREKM9VGL9zoZUL5Vuvz6j",
-          "5EnozpXWkEYC4y7G3cC3gZsv8ihzzi8C2rjL5QqVcWXuTn8h",
-          "5Dw3zSej9x9WM6xwT8DyfTx9D8ZXMChYEGzjxbkZH9J9FziB"
+          "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
+          "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
+          "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn"
         ],
         "forceEra": "NotForcing",
         "slashRewardFraction": 100000000,
@@ -78,30 +78,30 @@
       "session": {
         "keys": [
           [
-            "5GwxVe4GAAhdgrrBwScAoCeEpKEREKM9VGL9zoZUL5Vuvz6j",
-            "5GwxVe4GAAhdgrrBwScAoCeEpKEREKM9VGL9zoZUL5Vuvz6j",
+            "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
+            "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
             {
-              "babe": "5EeZ97pBeNPXXNZe2vuemowsCqeSZQVyZmxTKVrmTyNUMejL",
-              "grandpa": "5FNU5fBaZaKtDevwJTnysoEavj8o7QvpcPPnEaesq7Qb2Jjv",
-              "im_online": "5G7GAMfM7ea6ZYRbcVVy8sSc8Z1Hrd2FhTJYP6diy2ZCGnWg"
+              "babe": "5EKteVtU6i1i2ohk4UjujhiU2kpEb7R3RR4RnKkvAMHRHCnb",
+              "grandpa": "5GnggbKqQjrCmP4TaAPkQ6fVoU2X8HyBHoUX3nqxfAchgb4q",
+              "im_online": "5F7GGrtCXRfmJCogM9wEUSTEsxpVwUem8twKeSCivbxUX5YW"
             }
           ],
           [
-            "5EnozpXWkEYC4y7G3cC3gZsv8ihzzi8C2rjL5QqVcWXuTn8h",
-            "5EnozpXWkEYC4y7G3cC3gZsv8ihzzi8C2rjL5QqVcWXuTn8h",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
             {
-              "babe": "5E3C9Jq2dfggkyquz5J9sS7MR4RLSsqDFCBZL2pY89cKrCwB",
-              "grandpa": "5HiuLn2cVdRFmTDjKxodzNLvT4p6RyP2BuK6byaBkLXJDDNo",
-              "im_online": "5D7WdUD43k9DdXHEvZ9C7tvLhLYfEps2YuFGub1ksGmL3stg"
+              "babe": "5GDE6PxpLE8kGxTYp7mz7m7VGXaieG5L7HWNLTcwfd58RJRg",
+              "grandpa": "5Fk2WQJ9kDmTV4R8GBVPhT29wzcuF25tFJxuJf1gbropX9AV",
+              "im_online": "5FxbHJeUrzfiJgXbpMmVw7cMeDvG36HQNyghdo6H4AvbmikN"
             }
           ],
           [
-            "5Dw3zSej9x9WM6xwT8DyfTx9D8ZXMChYEGzjxbkZH9J9FziB",
-            "5Dw3zSej9x9WM6xwT8DyfTx9D8ZXMChYEGzjxbkZH9J9FziB",
+            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
+            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
             {
-              "babe": "5H4MZ78DmeJZ7snVL7fF2sVvhvwmACuFhPo2e6VseG52SaDZ",
-              "grandpa": "5FcK1A37XruBMfLS21pTcHRe3dZxYeHiZhKnXqrgBRQj3LHH",
-              "im_online": "5FEoWFfLRg9Qkp46x7aBVxWkYoenG4matHAPUfdtjBZkxdjJ"
+              "babe": "5FCdPeB3wjATdnBYAW9mNGTF91HBRH9ebhPKTyuHUTWuzmeo",
+              "grandpa": "5HhAUwvuTVQc4aHswUpb2VnqRxLq9Fyk4MMM8oTZ3DGvy1AX",
+              "im_online": "5CSErtSNQS1qTJYcAHwatdtm7CVu6rrogbv4WUfcLSQusPvB"
             }
           ]
         ]
@@ -116,8 +116,8 @@
       "technicalCommittee": {
         "phantom": null,
         "members": [
-          "5CN5Tf3CP21CrnpiXQuWA3o2UouAidEWnADZTFqkVqhwtUUU",
-          "5CDSekkWt3RG9MVda6LawudKNSNsyCapjpC18QqVRAdhV8kE"
+          "5F1eXQ6axx4avgwSYP1RY5Lnyqt1cgBFJRxDAFcsL7BK7saW",
+          "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg"
         ]
       },
       "allianceMotion": {
