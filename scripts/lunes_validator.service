@@ -1,0 +1,25 @@
+[Unit]
+Description=Serviço Lunes node
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/lunes-nightly//target/release/lunes-node \
+	 --ws-external \
+	 --rpc-external \
+	 --rpc-cors all \
+	 --rpc-methods=unsafe \
+    --base-path  /tmp/validator1 \
+    --chain   lunes-testnet-staging-raw.json \
+    --bootnodes  /ip4/31.220.50.80/tcp/30333/p2p/12D3KooWGdT1sobUgpoqVRhPtdvWt25fVfgxqKKX2nt4FeZLyHbv \
+      --port 30336 \
+      --ws-port 9947 \
+      --rpc-port 9936 \
+    --name  validator1 \
+    --validator
+
+[Install]
+WantedBy=multi-user.target

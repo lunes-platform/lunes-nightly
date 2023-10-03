@@ -224,7 +224,9 @@ fn staging_network_config_genesis() -> GenesisConfig {
 	.into();
 	//c<AccountId>, <Balnance>
 	let mut endowed_accounts: Vec<(sp_runtime::AccountId32, Balance)> = vec![];
-	endowed_accounts.push((hex!["825fbf30be8d1eed46f16dd40faaaf3cd5b560f3e0dc6aa02681a459c30c0a4e"].into(), INITIAL_COLLATOR_STAKING)); //validator
+	endowed_accounts.push((hex!["94a85da278c784b238c790b54c352d676e4a6a23e6f8548cde35a2097313943c"].into(), INITIAL_COLLATOR_STAKING)); //validator
+	endowed_accounts.push((hex!["cec5bf763ece81eb1cbe4c4ec425dd0367f12269ff0651b0d983b3f274c17136"].into(), INITIAL_COLLATOR_STAKING)); //validator
+	endowed_accounts.push((hex!["6c1cc8e10322b3acf8d6e32e7601c412c28801446dc8ea5a9379995e05804473"].into(), INITIAL_COLLATOR_STAKING)); //validator
 	testnet_genesis(
 		wasm_binary,
 		initial_authorities,

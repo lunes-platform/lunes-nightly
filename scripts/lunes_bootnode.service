@@ -1,0 +1,21 @@
+[Unit]
+Description=Serviço Lunes node
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/lunes-nightly/target/release/lunes-node \
+	 --ws-external \
+	 --rpc-external \
+	 --rpc-cors all \
+	 --rpc-methods=unsafe \
+     --node-key <your-node-key> \
+     --base-path /tmp/bootnode1 \
+     --chain /root/lunes-nightly/lunes-testnet-staging-raw.json \
+     --name lunes
+
+[Install]
+WantedBy=multi-user.target
