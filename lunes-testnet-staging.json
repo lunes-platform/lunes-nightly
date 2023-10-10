@@ -43,16 +43,12 @@
             10000000000000
           ],
           [
-            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-            10000000000000
-          ],
-          [
-            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
+            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
             10000000000000
           ],
           [
             "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg",
-            19970000000000000
+            19980000000000000
           ]
         ]
       },
@@ -66,12 +62,11 @@
         "keys": []
       },
       "staking": {
-        "validatorCount": 3,
-        "minimumValidatorCount": 3,
+        "validatorCount": 2,
+        "minimumValidatorCount": 2,
         "invulnerables": [
           "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
-          "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-          "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn"
+          "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX"
         ],
         "forceEra": "NotForcing",
         "slashRewardFraction": 100000000,
@@ -84,14 +79,8 @@
             "Validator"
           ],
           [
-            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-            50000,
-            "Validator"
-          ],
-          [
-            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
-            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
+            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
             50000,
             "Validator"
           ]
@@ -107,27 +96,18 @@
             "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
             "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
             {
-              "babe": "5EKteVtU6i1i2ohk4UjujhiU2kpEb7R3RR4RnKkvAMHRHCnb",
-              "grandpa": "5GnggbKqQjrCmP4TaAPkQ6fVoU2X8HyBHoUX3nqxfAchgb4q",
+              "babe": "5GnggbKqQjrCmP4TaAPkQ6fVoU2X8HyBHoUX3nqxfAchgb4q",
+              "grandpa": "5EKteVtU6i1i2ohk4UjujhiU2kpEb7R3RR4RnKkvAMHRHCnb",
               "im_online": "5F7GGrtCXRfmJCogM9wEUSTEsxpVwUem8twKeSCivbxUX5YW"
             }
           ],
           [
-            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
+            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
             {
-              "babe": "5GDE6PxpLE8kGxTYp7mz7m7VGXaieG5L7HWNLTcwfd58RJRg",
-              "grandpa": "5Fk2WQJ9kDmTV4R8GBVPhT29wzcuF25tFJxuJf1gbropX9AV",
-              "im_online": "5FxbHJeUrzfiJgXbpMmVw7cMeDvG36HQNyghdo6H4AvbmikN"
-            }
-          ],
-          [
-            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
-            "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
-            {
-              "babe": "5FCdPeB3wjATdnBYAW9mNGTF91HBRH9ebhPKTyuHUTWuzmeo",
-              "grandpa": "5HhAUwvuTVQc4aHswUpb2VnqRxLq9Fyk4MMM8oTZ3DGvy1AX",
-              "im_online": "5CSErtSNQS1qTJYcAHwatdtm7CVu6rrogbv4WUfcLSQusPvB"
+              "babe": "5HDovSJuHG6kjewXfyhzRHBZRPgx6h9VFqrnvHsexEa8LV4j",
+              "grandpa": "5Dij1fKjDz6QoxcW8PxqZ4CbUMDRK8kndgBPRRehfwhQsip9",
+              "im_online": "5GYmPhuhbwfRmQDkYqj9A5myv3WgUAXxZSrLwhafnhTFZMbp"
             }
           ]
         ]
@@ -143,8 +123,7 @@
         "phantom": null,
         "members": [
           "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
-          "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
-          "5EWTaZqwnNUupLdJMdhajHeq4zHAQNbrpdZT9NBE97nVDkrn",
+          "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
           "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg"
         ]
       },
