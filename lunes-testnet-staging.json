@@ -43,7 +43,7 @@
             10000000000000
           ],
           [
-            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
             10000000000000
           ],
           [
@@ -66,7 +66,7 @@
         "minimumValidatorCount": 2,
         "invulnerables": [
           "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
-          "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX"
+          "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP"
         ],
         "forceEra": "NotForcing",
         "slashRewardFraction": 100000000,
@@ -79,8 +79,8 @@
             "Validator"
           ],
           [
-            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
-            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
             50000,
             "Validator"
           ]
@@ -102,12 +102,12 @@
             }
           ],
           [
-            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
-            "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
+            "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
             {
-              "babe": "5HDovSJuHG6kjewXfyhzRHBZRPgx6h9VFqrnvHsexEa8LV4j",
-              "grandpa": "5Dij1fKjDz6QoxcW8PxqZ4CbUMDRK8kndgBPRRehfwhQsip9",
-              "im_online": "5GYmPhuhbwfRmQDkYqj9A5myv3WgUAXxZSrLwhafnhTFZMbp"
+              "babe": "5Fk2WQJ9kDmTV4R8GBVPhT29wzcuF25tFJxuJf1gbropX9AV",
+              "grandpa": "5GDE6PxpLE8kGxTYp7mz7m7VGXaieG5L7HWNLTcwfd58RJRg",
+              "im_online": "5FxbHJeUrzfiJgXbpMmVw7cMeDvG36HQNyghdo6H4AvbmikN"
             }
           ]
         ]
@@ -123,7 +123,7 @@
         "phantom": null,
         "members": [
           "5FRcxav7mqTxtNfXcKgGs7EURyi4xnDWkW49QbAHmzAYo4rE",
-          "5FCrm8WuNSeWEjH2sdrebT7PkMtTaQ827knV4F74oyNQaXqX",
+          "5GjpTurmqrKnTa2ra7bWaDikU2kiiTN2EjPz4AfRge4gU8yP",
           "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg"
         ]
       },
