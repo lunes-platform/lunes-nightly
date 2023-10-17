@@ -133,10 +133,10 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
 	spec_version: 100,
-	impl_version: 1,
+	impl_version: 2,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
-	state_version: 1,
+	state_version: 2,
 };
 
 /// The version information used to identify this runtime when compiled natively.
@@ -299,10 +299,26 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 				tips.merge_into(&mut fees);
 			}
 			// for fees and tips, 100% to treasury
-			Treasury::on_unbalanced(fees);
+			//Treasury::on_unbalanced(fees);
 		}
 	}
 }
+/*
+
+fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance<R>>) {
+    if let Some(fees) = fees_then_tips.next() {
+        // for fees, 80% to treasury, 20% to author
+        let mut split = fees.ration(80, 20);
+        if let Some(tips) = fees_then_tips.next() {
+            // for tips, if any, 100% to author
+            tips.merge_into(&mut split.1);
+        }
+        use pallet_treasury::Pallet as Treasury;
+        <Treasury<R> as OnUnbalanced<_>>::on_unbalanced(split.0);
+        <ToAuthor<R> as OnUnbalanced<_>>::on_unbalanced(split.1);
+    }
+}
+*/
 impl pallet_transaction_payment::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type OnChargeTransaction = CurrencyAdapter<Balances, DealWithFees>;
