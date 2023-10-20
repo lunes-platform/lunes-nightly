@@ -132,11 +132,11 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 100,
-	impl_version: 2,
+	spec_version: 101,
+	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
-	state_version: 2,
+	state_version: 1,
 };
 
 /// The version information used to identify this runtime when compiled natively.
@@ -220,7 +220,7 @@ parameter_types! {
 	//       Attempting to do so will brick block production.
 	pub const EpochDuration: u64 = EPOCH_DURATION_IN_SLOTS;
 	pub const ExpectedBlockTime: Moment = MILLISECS_PER_BLOCK;
-	pub const ReportLongevity: u64 = 24 * 28 * 6 * EpochDuration::get();
+	pub const ReportLongevity: u64 = 10 * EpochDuration::get();
 		// BondingDuration::get() as u64 * SessionsPerEra::get() as u64 * EpochDuration::get();
 	pub const MaxAuthorities: u32 = 100;
 }
@@ -232,6 +232,7 @@ impl pallet_babe::Config for Runtime {
 	type DisabledValidators = Session;
 	type WeightInfo = ();
 	type MaxAuthorities = MaxAuthorities;
+	type MaxNominators = ConstU32<0>;
 	type KeyOwnerProof =
 		<Historical as KeyOwnerProofSystem<(KeyTypeId, pallet_babe::AuthorityId)>>::Proof;
 	type EquivocationReportSystem =
@@ -270,7 +271,9 @@ impl pallet_balances::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type DustRemoval = ();
 	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
-	type AccountStore = System;
+    type FreezeIdentifier = ();
+	type MaxHolds = ConstU32<0>;
+    type MaxFreezes = ConstU32<0>;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
 pub struct WeightToFeeLunes;
@@ -291,15 +294,28 @@ parameter_types! {
 }
 type NegativeImbalance = <Balances as FrameCurrency<AccountId>>::NegativeImbalance;
 
+pub struct Author;
+impl OnUnbalanced<NegativeImbalance> for Author {
+	fn on_nonzero_unbalanced(amount: NegativeImbalance) {
+		if let Some(author) = Authorship::author() {
+			Balances::resolve_creating(&author, amount);
+		}
+	}
+}
 pub struct DealWithFees;
 impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 	fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
-		if let Some(mut fees) = fees_then_tips.next() {
+		if let Some(mut fees) = fees_then_tips.next() {			
+			
 			if let Some(tips) = fees_then_tips.next() {
 				tips.merge_into(&mut fees);
 			}
-			// for fees and tips, 100% to treasury
-			//Treasury::on_unbalanced(fees);
+			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn
+			let mut splitFee = fees.ration(25, 75);
+			let mut splitBurn = split.0.ration(50, 50);
+			Treasury::on_unbalanced(splitBurn.0);
+			Author::on_unbalanced(splitFee.1);
+
 		}
 	}
 }
