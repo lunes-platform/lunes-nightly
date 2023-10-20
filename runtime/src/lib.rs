@@ -270,6 +270,7 @@ impl pallet_balances::Config for Runtime {
 	/// The ubiquitous event type.
 	type RuntimeEvent = RuntimeEvent;
 	type DustRemoval = ();
+	type AccountStore = System;
 	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
