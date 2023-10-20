@@ -233,7 +233,6 @@ impl pallet_babe::Config for Runtime {
 	type DisabledValidators = Session;
 	type WeightInfo = ();
 	type MaxAuthorities = MaxAuthorities;
-	type MaxNominators = ConstU32<0>;
 	type KeyOwnerProof =
 		<Historical as KeyOwnerProofSystem<(KeyTypeId, pallet_babe::AuthorityId)>>::Proof;
 	type EquivocationReportSystem =
@@ -272,9 +271,6 @@ impl pallet_balances::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type DustRemoval = ();
 	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
-    type FreezeIdentifier = ();
-	type MaxHolds = ConstU32<0>;
-    type MaxFreezes = ConstU32<0>;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
 pub struct WeightToFeeLunes;
@@ -313,7 +309,7 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 			}
 			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn
 			let mut splitFee = fees.ration(25, 75);
-			let mut splitBurn = split.0.ration(50, 50);
+			let mut splitBurn = splitFee.0.ration(50, 50);
 			Treasury::on_unbalanced(splitBurn.0);
 			Author::on_unbalanced(splitFee.1);
 
