@@ -133,7 +133,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 101,
+	spec_version: 102,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -309,30 +309,24 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 				tips.merge_into(&mut fees);
 			}
 			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn
-			let mut splitFee = fees.ration(25, 75);
-			let mut splitBurn = splitFee.0.ration(50, 50);
-			Treasury::on_unbalanced(splitBurn.0);
-			Author::on_unbalanced(splitFee.1);
-
+			let split_fee = fees.ration(25, 75);			
+			
+			Author::on_unbalanced(split_fee.1);
+			
+			let burn: Balance = get_total_issuance::<Runtime>();
+			if burn > (50_000_000 * UNIT) {
+				let split_burn = split_fee.0.ration(50, 50);
+				Treasury::on_unbalanced(split_burn.0);
+			}else{
+				Treasury::on_unbalanced(split_fee.0);
+			}
 		}
 	}
 }
-/*
-
-fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance<R>>) {
-    if let Some(fees) = fees_then_tips.next() {
-        // for fees, 80% to treasury, 20% to author
-        let mut split = fees.ration(80, 20);
-        if let Some(tips) = fees_then_tips.next() {
-            // for tips, if any, 100% to author
-            tips.merge_into(&mut split.1);
-        }
-        use pallet_treasury::Pallet as Treasury;
-        <Treasury<R> as OnUnbalanced<_>>::on_unbalanced(split.0);
-        <ToAuthor<R> as OnUnbalanced<_>>::on_unbalanced(split.1);
-    }
+fn get_total_issuance<T: pallet_balances::Config>() -> Balance {
+    Balances::total_issuance()
 }
-*/
+
 impl pallet_transaction_payment::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type OnChargeTransaction = CurrencyAdapter<Balances, DealWithFees>;
