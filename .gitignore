@@ -18,3 +18,4 @@
 .vscode
 Cargo.lock
 lunes-testnet-staging-raw.json
+**/stripts/

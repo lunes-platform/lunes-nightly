@@ -308,13 +308,13 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 			if let Some(tips) = fees_then_tips.next() {
 				tips.merge_into(&mut fees);
 			}
-			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn
+			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn 
 			let split_fee = fees.ration(25, 75);			
 			
 			Author::on_unbalanced(split_fee.1);
 			
-			let burn: Balance = get_total_issuance::<Runtime>();
-			if burn > (50_000_000 * UNIT) {
+			let total_issuance: Balance = get_total_issuance::<Runtime>();
+			if total_issuance > (50_000_000 * UNIT) {
 				let split_burn = split_fee.0.ration(50, 50);
 				Treasury::on_unbalanced(split_burn.0);
 			}else{

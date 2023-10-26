@@ -56,4 +56,3 @@ for i in $(seq 1 $V_NUM); do
 done
 
 printf "$AUTHORITIES"
-# printf "$SECRET"

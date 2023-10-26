@@ -1,5 +1,5 @@
 [Unit]
-Description=Serviço Lunes node
+Description=Bootnode Lunes nightly
 After=network.target
 
 [Service]

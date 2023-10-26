@@ -1,0 +1,22 @@
+[Unit]
+Description=Validador Lunes nightly
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/lunes-nightly//target/release/lunes-node \
+    --rpc-methods=unsafe \
+    --port 30333 \
+    --ws-port 9945 \ 
+    --rpc-port 9933 \
+    --base-path  /tmp/validator1 \
+    --chain   /root/lunes-nightly/lunes-testnet-staging-raw.json \
+    --bootnodes  /ip4/31.220.50.80/tcp/30333/p2p/<ID_NODE> \
+    --name  validator1 \
+    --validator
+
+[Install]
+WantedBy=multi-user.target
