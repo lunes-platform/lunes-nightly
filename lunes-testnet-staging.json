@@ -3,7 +3,7 @@
   "id": "local_node",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWNS1babL3MHkjmQ3x1aUVVvwfQekxHAwcp1m3Vi67ikxG"
+    "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
   ],
   "telemetryEndpoints": [
     [
@@ -39,28 +39,32 @@
       "balances": {
         "balances": [
           [
-            "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
-            10000000000000
+            "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+            6000000000000
           ],
           [
-            "5Fe7e3CDvwLsJxXpNTCwkzrP3sHCg3ar6mBuMbAdxTjWqKgp",
-            10000000000000
+            "5GLPJBeC3samwR2yEmhWak7wQpLuurJAgGfauNbwc9hbyzq7",
+            6000000000000
           ],
           [
-            "5EAQkhVywtAofQf2tfFQztAB48vs1v2JqHmNBuyaBiqw5Eyc",
-            10000000000000
+            "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+            6000000000000
           ],
           [
-            "5FAxyg6b9eZ6xue9UDhfU3kdfKnw84hK86LdSEtGog7QFBdD",
-            10000000000000
+            "5C7jhE181ZSBQwiJRbSyTKFjV4X9b2Dn7Ebbu4f4C68EGvJM",
+            6000000000000
           ],
           [
-            "5DwRGGZ8AXJoucTUd5qK6ZcfMBg4sDAf8W6SoPuZj75u23ue",
-            10000000000000
+            "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
+            6000000000000
+          ],
+          [
+            "5GnCqu6TqYvKoFvn5srHrnmzHGuWUxUNTLnagJLy6aF5UCnR",
+            6000000000000
           ],
           [
             "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg",
-            19950000000000000
+            19964000000000000
           ]
         ]
       },
@@ -74,18 +78,32 @@
         "keys": []
       },
       "staking": {
-        "validatorCount": 1,
-        "minimumValidatorCount": 1,
+        "validatorCount": 3,
+        "minimumValidatorCount": 3,
         "invulnerables": [
-          "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu"
+          "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+          "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+          "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89"
         ],
         "forceEra": "NotForcing",
         "slashRewardFraction": 100000000,
         "canceledPayout": 0,
         "stakers": [
           [
-            "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
-            "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
+            "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+            "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+            50000,
+            "Validator"
+          ],
+          [
+            "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+            "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+            50000,
+            "Validator"
+          ],
+          [
+            "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
+            "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
             50000,
             "Validator"
           ]
@@ -98,12 +116,30 @@
       "session": {
         "keys": [
           [
-            "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
-            "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
+            "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+            "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
             {
-              "babe": "5EAQkhVywtAofQf2tfFQztAB48vs1v2JqHmNBuyaBiqw5Eyc",
-              "grandpa": "5FAxyg6b9eZ6xue9UDhfU3kdfKnw84hK86LdSEtGog7QFBdD",
-              "im_online": "5DwRGGZ8AXJoucTUd5qK6ZcfMBg4sDAf8W6SoPuZj75u23ue"
+              "babe": "5Hj4VkbJgzfbMgYT7DB2i62DCsUgDcxKKhrJ2ozh5SHdF63u",
+              "grandpa": "5HYUtYaYrQKrfJqueiqEWaoGvU7cPEFFxswScpoHgaUDiRdd",
+              "im_online": "5FNUfUv5vn7Vw7m7QVigaFCW2HJpL69HztF2UQcJcRFZTUwC"
+            }
+          ],
+          [
+            "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+            "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+            {
+              "babe": "5FS1kcp2e8pYndoLKo8uAsaYGWeZD1DybZDGLQy6RuG6UqVb",
+              "grandpa": "5Cj69RXSKsmJdFyyRAhh74SoLEFKpxt5syE8Hra8RHq6Ct1a",
+              "im_online": "5Fxmrj4Ru7EigiEy1zsuzTABSLREfV7nEHybtf2hWcYuitfw"
+            }
+          ],
+          [
+            "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
+            "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
+            {
+              "babe": "5FkBrW6mmnRa1shFrzDLUWi9tiTXdpKNvQwfYiNnExfi8hB7",
+              "grandpa": "5GE44QJZnTDQaM7EpSZFx3idhCbGe23FZPupc1DxBNijiykr",
+              "im_online": "5CcwwMfoeMBw7XHmxVFP6CVSBmRCs1UtHcz6YnVV87NsJni2"
             }
           ]
         ]
@@ -118,11 +154,12 @@
       "technicalCommittee": {
         "phantom": null,
         "members": [
-          "5FWPxoqLoMY8ZYYP6phwPd2SKKUACXqhk4q5B8JGoQm3sGgu",
-          "5Fe7e3CDvwLsJxXpNTCwkzrP3sHCg3ar6mBuMbAdxTjWqKgp",
-          "5EAQkhVywtAofQf2tfFQztAB48vs1v2JqHmNBuyaBiqw5Eyc",
-          "5FAxyg6b9eZ6xue9UDhfU3kdfKnw84hK86LdSEtGog7QFBdD",
-          "5DwRGGZ8AXJoucTUd5qK6ZcfMBg4sDAf8W6SoPuZj75u23ue",
+          "5ENh7Zq3KHCseVdo4KbF5ztSDK5GDSMUiwLT3E1rqS22svsy",
+          "5GLPJBeC3samwR2yEmhWak7wQpLuurJAgGfauNbwc9hbyzq7",
+          "5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5",
+          "5C7jhE181ZSBQwiJRbSyTKFjV4X9b2Dn7Ebbu4f4C68EGvJM",
+          "5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89",
+          "5GnCqu6TqYvKoFvn5srHrnmzHGuWUxUNTLnagJLy6aF5UCnR",
           "5CfptqCCc5Y5xnqVSz8FQNKHXnmBPfRotrPJL1FbXH6MLNxg"
         ]
       },
