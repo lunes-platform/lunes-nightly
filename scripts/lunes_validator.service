@@ -1,0 +1,18 @@
+[Unit]
+Description=Validador Lunes nightly
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/target/release/lunes-node \
+     --chain /root/target/release/lunes-node/lunes-staging-raw.json -d \
+    data/testevalidador \
+    --name <NameValidator> \
+    --validator --port 30334 --ws-port 9946 --rpc-port 9933 \
+    --bootnodes  /ip4/127.0.0.1/tcp/30333/p2p/<your>
+
+[Install]
+WantedBy=multi-user.target

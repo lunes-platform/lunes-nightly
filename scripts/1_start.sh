@@ -16,3 +16,5 @@ printf "For GRANDPA:\n"
 subkey generate --scheme ED25519 --words 24 --network substrate
 printf "For IM_ONLINE:\n"
 subkey generate --scheme SR25519 --words 24 --network substrate
+printf "For BOOTNODE:\n\n"
+subkey generate --scheme ED25519 --words 24 --network substrate
