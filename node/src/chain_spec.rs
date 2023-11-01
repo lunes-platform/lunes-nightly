@@ -225,8 +225,8 @@ fn staging_network_config_genesis() -> GenesisConfig {
 	//c<AccountId>, <Balnance>
 	let mut endowed_accounts: Vec<(sp_runtime::AccountId32, Balance)> = vec![];
 	endowed_accounts.push((hex!["663061efaa2334649267572ad07bf9004e0343bccba8569fdab0bddf570a5249"].into(), INITIAL_COLLATOR_STAKING)); 
-	endowed_accounts.push((hex!["bce661a988687eb1c23dd0de55b982ad6fb9aaa43d89a1d444133aafb9fc4551"].into(), INITIAL_COLLATOR_STAKING)); 
 	endowed_accounts.push((hex!["6aac7cb8ad6554a15672cb6be4e7fce3d98bb0c12acf4c88e68a71bcf3fdbc30"].into(), INITIAL_COLLATOR_STAKING)); 
+	endowed_accounts.push((hex!["6c2caa79eda8d94521bf988d7b8ac8a7e0182490f342ec62bfb5b5c17745be0b"].into(), INITIAL_COLLATOR_STAKING)); 
 
 	testnet_genesis(
 		wasm_binary,
