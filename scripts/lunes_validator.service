@@ -1,5 +1,5 @@
 [Unit]
-Description=Vaidador o Lunes node
+Description=Vaidador Lunes node
 After=network.target
 
 [Service]
@@ -10,6 +10,6 @@ User=root
 ExecStart=/root/lunes-nightly/target/release/lunes-node \
                         --chain  /root/lunes-nightly/lunes-testnet-staging-raw.json -d /data/validator \
                         --name validator2 --validator --port 30334 --ws-port 9946 --rpc-port 9934 \
-                        --bootnodes /ip4/<IP_SERVE>/tcp/30333/p2p/<ID_NODE>
+                        --bootnodes /ip4/<your-bootnode-ip>/tcp/30333/p2p/<your-bootnode-peerid> 
 [Install]
 WantedBy=multi-user.target

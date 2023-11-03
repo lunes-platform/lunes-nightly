@@ -4,7 +4,8 @@
   "chainType": "Live",
   "bootNodes": [
     "/dns4/superblock.lunes.io/tcp/30333/p2p/12D3KooWJCGWhCBeud8LsW9tRKxXzdAFF9B1TXoiFahDE6LWn7Vg",
-    "/dns4/lunesblock.lunes.io/tcp/30333/p2p/12D3KooWFrrUz1u2nV4Xm7w7TNJBsMvefC95oj5JEFr9nqfqssRj"
+    "/dns4/lunesblock.lunes.io/tcp/30333/p2p/12D3KooWFrrUz1u2nV4Xm7w7TNJBsMvefC95oj5JEFr9nqfqssRj",
+    "/dns4/upnode.lunes.io/tcp/30333/p2p/12D3KooWBFYXE3FiJ5PiUMCM6PvYB5CCekGo7Fgir814ki4k86k4"
   ],
   "telemetryEndpoints": null,
   "protocolId": "lunes-mainnet",
