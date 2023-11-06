@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 [Unit]
 Description=Lunes fullnode
 After=network.target

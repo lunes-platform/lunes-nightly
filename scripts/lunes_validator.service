@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 [Unit]
 Description=Vaidador Lunes node
 After=network.target
