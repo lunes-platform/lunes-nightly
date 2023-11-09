@@ -18,6 +18,7 @@ scale-info = { version = "2.1.1", default-features = false, features = ["derive"
 log = { version = "0.4.17", default-features = false }
 smallvec = "1.9.0"
 evm-runtime = { version = "0.37.0", default-features = false }
+hex-literal = "0.3.4"
 
 pallet-babe = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-balances = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }

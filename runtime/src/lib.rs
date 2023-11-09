@@ -13,7 +13,7 @@ mod voter_bags;
 
 /// Runtime API definition for assets.
 pub mod assets_api;
-
+use hex_literal::hex;
 use codec::{Decode, Encode};
 
 use frame_support::{traits::OnUnbalanced, weights::ConstantMultiplier};
@@ -133,7 +133,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 102,
+	spec_version: 103,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -300,6 +300,24 @@ impl OnUnbalanced<NegativeImbalance> for Author {
 		}
 	}
 }
+pub struct TreasuryLunes;
+impl OnUnbalanced<NegativeImbalance> for TreasuryLunes {
+	fn on_nonzero_unbalanced(amount: NegativeImbalance) {
+		
+		let recipient: AccountId = hex![
+				"1ac9475ee6d6446eaa9657cd6b1bbef5c94b041b308dfcd59bad0f97ef86b849"
+			].into();		
+		Balances::resolve_creating(&recipient, amount);
+	}
+}
+#[warn(unused_must_use)]
+fn get_burn_lunes<T: pallet_balances::Config>(amount: Balance) -> () {
+	Balances::burn(amount);
+}
+fn get_total_issuance<T: pallet_balances::Config>() -> Balance {
+    Balances::total_issuance()
+}
+
 pub struct DealWithFees;
 impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 	fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
@@ -316,15 +334,13 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 			let total_issuance: Balance = get_total_issuance::<Runtime>();
 			if total_issuance > (50_000_000 * UNIT) {
 				let split_burn = split_fee.0.ration(50, 50);
-				Treasury::on_unbalanced(split_burn.0);
+				TreasuryLunes::on_unbalanced(split_burn.0);
+				get_burn_lunes::<Runtime>(split_burn.1.peek());
 			}else{
-				Treasury::on_unbalanced(split_fee.0);
+				TreasuryLunes::on_unbalanced(split_fee.0);
 			}
 		}
 	}
-}
-fn get_total_issuance<T: pallet_balances::Config>() -> Balance {
-    Balances::total_issuance()
 }
 
 impl pallet_transaction_payment::Config for Runtime {
@@ -552,7 +568,7 @@ parameter_types! {
 	pub const OffendingValidatorsThreshold: Perbill = Perbill::from_percent(17);
 	pub OffchainRepeat: BlockNumber = 5;
 	pub HistoryDepth: u32 = 84;
-	pub const RewardCurve: &'static PiecewiseLinear<'static> = &REWARD_CURVE;
+	//pub const RewardCurve: &'static PiecewiseLinear<'static> = &REWARD_CURVE;
 }
 
 pub struct StakingBenchmarkingConfig;
