@@ -259,7 +259,7 @@ fn testnet_genesis(
 	}
 	let stakers = initial_authorities
 		.iter()
-		.map(|x| (x.0.clone(), x.0.clone(), EXISTENTIAL_DEPOSIT_LUNES, StakerStatus::Validator))
+		.map(|x| (x.0.clone(), x.0.clone(), MIN_VALIDATOR_BOND, StakerStatus::Validator))
 		.collect::<Vec<_>>();
 	endowed_accounts.push((root_key.clone(), genesis_issuance));
 	let council: Vec<_> = endowed_accounts

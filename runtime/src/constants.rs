@@ -14,8 +14,6 @@ pub mod currency {
 
     pub const TOTAL_INITIAL_ISSUANCE_LUNES: Balance = 200_000_000 * UNIT;
     pub const INITIAL_COLLATOR_STAKING: Balance = 50_000 * UNIT;
-    pub const EXISTENTIAL_DEPOSIT_LUNES: Balance = 50_000 * UNIT;
-    pub const COLLATOR_ADDITIONAL: Balance = 10 * UNIT;
     pub const fn deposit(items: u32, bytes: u32) -> Balance {
 		items as Balance * 15 * UNIT + (bytes as Balance) * 6 * UNIT
 	}	
