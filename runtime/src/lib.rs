@@ -305,7 +305,7 @@ impl OnUnbalanced<NegativeImbalance> for TreasuryLunes {
 	fn on_nonzero_unbalanced(amount: NegativeImbalance) {
 		
 		let recipient: AccountId = hex![
-				"1ac9475ee6d6446eaa9657cd6b1bbef5c94b041b308dfcd59bad0f97ef86b849"
+				"2c11d2aff81147e5522539c51c1cb87bae94a0865d214f3983f3557a6732f26a"
 			].into();		
 		Balances::resolve_creating(&recipient, amount);
 	}
