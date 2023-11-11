@@ -298,9 +298,11 @@ fn testnet_genesis(
 		},
 		staking: StakingConfig {
 			validator_count: initial_authorities.len() as u32,
-			minimum_validator_count: initial_authorities.len() as u32,
+			minimum_validator_count: 4,
 			invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
 			slash_reward_fraction: Perbill::from_percent(10),
+			min_validator_bond: MIN_VALIDATOR_BOND,
+            min_nominator_bond: MIN_NOMINATOR_BOND,
 			stakers,
 			..Default::default()
 		},

@@ -569,6 +569,7 @@ parameter_types! {
 	pub OffchainRepeat: BlockNumber = 5;
 	pub HistoryDepth: u32 = 84;
 	//pub const RewardCurve: &'static PiecewiseLinear<'static> = &REWARD_CURVE;
+	pub const MinValidatorStake: Balance = 100;
 }
 
 pub struct StakingBenchmarkingConfig;

@@ -8,6 +8,10 @@ pub mod currency {
     pub const MILLIUNIT: Balance = 1_000_000;
     pub const MICROUNIT: Balance = 100_000;
     pub const NANOUNIT: Balance = 1_000;
+
+	pub const MIN_VALIDATOR_BOND: Balance = 50_000 * UNIT;
+    pub const MIN_NOMINATOR_BOND: Balance = 100 * UNIT;
+
     pub const TOTAL_INITIAL_ISSUANCE_LUNES: Balance = 200_000_000 * UNIT;
     pub const INITIAL_COLLATOR_STAKING: Balance = 50_000 * UNIT;
     pub const EXISTENTIAL_DEPOSIT_LUNES: Balance = 50_000 * UNIT;
