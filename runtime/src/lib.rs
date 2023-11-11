@@ -15,7 +15,6 @@ mod voter_bags;
 pub mod assets_api;
 use hex_literal::hex;
 use codec::{Decode, Encode};
-
 use frame_support::{traits::OnUnbalanced, weights::ConstantMultiplier};
 use pallet_grandpa::AuthorityId as GrandpaId;
 use pallet_election_provider_multi_phase::SolutionAccuracyOf;
@@ -310,9 +309,8 @@ impl OnUnbalanced<NegativeImbalance> for TreasuryLunes {
 		Balances::resolve_creating(&recipient, amount);
 	}
 }
-#[warn(unused_must_use)]
 fn get_burn_lunes<T: pallet_balances::Config>(amount: Balance) -> () {
-	Balances::burn(amount);
+	let _ = Balances::burn(amount);
 }
 fn get_total_issuance<T: pallet_balances::Config>() -> Balance {
     Balances::total_issuance()
