@@ -10,6 +10,7 @@ RestartSec=1
 User=root
 ExecStart=/root/lunes-nightly/target/release/lunes-node  \
                 --chain  /root/lunes-nightly/lunes-staging-raw.json -d \
+				/root/data/fullnode \
                 --name <your-validator-name>  \
                 --in-peers 256 \
                 --validator --port 30334 --ws-port 9946 --rpc-port 9934 \
