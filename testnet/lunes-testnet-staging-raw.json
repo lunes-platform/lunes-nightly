@@ -3,7 +3,7 @@
   "id": "local_node",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
+    "/ip4/testnet-01.lunes.io/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
   ],
   "telemetryEndpoints": null,
   "protocolId": "lunes-mainnet",
