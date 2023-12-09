@@ -132,7 +132,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 103,
+	spec_version: 104,
 	impl_version: 2,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -700,17 +700,12 @@ impl pallet_im_online::Config for Runtime {
 }
 
 parameter_types! {
-	pub const DepositPerItem: Balance = deposit(1, 0);
-	pub const DepositPerByte: Balance = deposit(0, 1);
+	pub const DepositPerItem: Balance = CONTRACT_DEPOSIT_PER_BYTE;
+	pub const DepositPerByte: Balance = CONTRACT_DEPOSIT_PER_BYTE;
 	pub const DeletionQueueDepth: u32 = 128;
 	pub Schedule: pallet_contracts::Schedule<Runtime> = Default::default();
-	pub CodeHashLockupDepositPercent: Perbill = Perbill::from_percent(30);
 	// The lazy deletion runs inside on_initialize.
-	pub DeletionWeightLimit: Weight = RuntimeBlockWeights::get()
-		.per_class
-		.get(DispatchClass::Normal)
-		.max_total
-		.unwrap_or(RuntimeBlockWeights::get().max_block);
+	pub DeletionWeightLimit: Weight = Perbill::from_percent(10) * RuntimeBlockWeights::get().max_block; // 40ms
 }
 
 impl pallet_contracts::Config for Runtime {
@@ -728,7 +723,7 @@ impl pallet_contracts::Config for Runtime {
 	type CallFilter = Nothing;
 	type DepositPerItem = DepositPerItem;
 	type DepositPerByte = DepositPerByte;
-	type CallStack = [pallet_contracts::Frame<Self>; 5];
+	type CallStack = [pallet_contracts::Frame<Self>; 16];
 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Self>;
 	type ChainExtension = ();
@@ -740,6 +735,7 @@ impl pallet_contracts::Config for Runtime {
 	type MaxStorageKeyLen = ConstU32<128>;
 	type UnsafeUnstableInterface = ConstBool<false>;
 	type MaxDebugBufferLen = ConstU32<{ 2 * 1024 * 1024 }>;
+	
 }
 
 parameter_types! {
@@ -1141,8 +1137,8 @@ impl pallet_scored_pool::Config for Runtime {
 
 
 parameter_types! {
-	pub BlockGasLimit: U256 = U256::max_value();
-	pub WeightPerGas: Weight = Weight::from_parts(20_000, 0);
+	pub BlockGasLimit: U256 = U256::from(10);
+	pub WeightPerGas: Weight = Weight::from_parts(50, 0);
 	pub PrecompilesValue: FrontierPrecompiles<Runtime> = FrontierPrecompiles::<_>::new();
 }		
 
