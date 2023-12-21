@@ -1,12 +1,12 @@
 {
   "name": "Lunes Nightly",
-  "id": "local_node",
+  "id": "test_node",
   "chainType": "Live",
   "bootNodes": [
     "/dns4/testnet-01.lunes.io/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
   ],
   "telemetryEndpoints": null,
-  "protocolId": "lunes-mainnet",
+  "protocolId": "lunes-test",
   "properties": {
     "ss58Format": 57,
     "tokenDecimals": 8,
