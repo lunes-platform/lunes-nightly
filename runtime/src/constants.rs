@@ -13,6 +13,7 @@ pub mod currency {
     pub const MIN_NOMINATOR_BOND: Balance = 100 * UNIT;
 
     pub const TOTAL_INITIAL_ISSUANCE_LUNES: Balance = 200_000_000 * UNIT;
+	pub const TOTAL_INITIAL_ISSUANCE_LUNES_TESTE: Balance = 10_000_000_000 * UNIT;
     pub const INITIAL_COLLATOR_STAKING: Balance = 50_000 * UNIT;
 	pub const TOKEN_DECIMALS: u32 = 8;
 	pub const TOKEN: u128 = 10u128.pow(TOKEN_DECIMALS);
