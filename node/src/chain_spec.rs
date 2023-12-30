@@ -149,7 +149,7 @@ pub fn staging_network_config() -> ChainSpec {
 	properties.insert("ss58Format".into(), 57.into());
 	ChainSpec::from_genesis(
 		"Lunes Nigthly",
-		"local_node",
+		"lunes",
 		ChainType::Live,
 		staging_network_config_genesis,
 		boot_nodes,
@@ -174,7 +174,7 @@ pub fn staging_testnet_network_config() -> ChainSpec {
 	properties.insert("ss58Format".into(), 57.into());
 	ChainSpec::from_genesis(
 		"Lunes Nigthly",
-		"testnet_node",
+		"lunes_nightly_testnet",
 		ChainType::Development,
 		staging_test_network_config_genesis,
 		boot_nodes,
@@ -425,6 +425,7 @@ fn testnet_genesis(
 			key: Some(root_key),
 		},
 		transaction_payment: Default::default(),
+		ethereum: Default::default(),
 	}
 
 	
@@ -476,7 +477,7 @@ fn mainnet_genesis(
 		},
 		grandpa: GrandpaConfig {
 			authorities: vec![],
-		},
+		},		
 		session: SessionConfig {
 			keys: initial_authorities
 				.iter()
@@ -521,6 +522,7 @@ fn mainnet_genesis(
 			key: Some(root_key),
 		},
 		transaction_payment: Default::default(),
+		ethereum: Default::default(),
 	}
 
 	
