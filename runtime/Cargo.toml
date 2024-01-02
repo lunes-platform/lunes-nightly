@@ -94,10 +94,30 @@ pallet-ethereum = {  default-features = false, git = "https://github.com/parityt
 fp-rpc = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
 fp-self-contained = { version = "1.0.0-dev", default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
 
+# Open Runtime Module Library
+orml-asset-registry = {git = "https://github.com/open-web3-stack/open-runtime-module-library.git", default-features = false, branch = "polkadot-v0.9.40" }
+orml-currencies = {git = "https://github.com/open-web3-stack/open-runtime-module-library.git", default-features = false, branch = "polkadot-v0.9.40" }
+orml-traits = {git = "https://github.com/open-web3-stack/open-runtime-module-library.git", default-features = false, branch = "polkadot-v0.9.40" }
+orml-tokens = {git = "https://github.com/open-web3-stack/open-runtime-module-library.git", default-features = false, branch = "polkadot-v0.9.40" }
+orml-xtokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, branch = "polkadot-v0.9.40" }
+orml-xcm-support = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, branch = "polkadot-v0.9.40" }
+
+
+# DIA
+dia-oracle = {git = "https://github.com/pendulum-chain/oracle-pallet", default-features = false, branch = "polkadot-v0.9.40"}
+dia-oracle-runtime-api = {git = "https://github.com/pendulum-chain/oracle-pallet", default-features = false, branch = "polkadot-v0.9.40"}
+
+
 # Polkadot
 # (wasm)
+pallet-xcm = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "release-v0.9.40" }
 polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
+polkadot-parachain = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
+xcm = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
+xcm-builder = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
+xcm-executor = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.40", default-features = false }
+
 
 
 # Used for the node template's RPCs
@@ -196,7 +216,20 @@ std = [
 	"pallet-evm-precompile-curve25519/std",
 	"pallet-dynamic-fee/std",
 	"pallet-ethereum/std",
+	"dia-oracle/std",
+  	"dia-oracle-runtime-api/std",
+	"pallet-xcm/std",
 	"polkadot-primitives/std",
+	"polkadot-parachain/std",
+	"xcm/std",
+	"xcm-builder/std",
+	"xcm-executor/std",
+	"orml-asset-registry/std",
+  	"orml-currencies/std",
+  	"orml-traits/std",
+  	"orml-tokens/std",
+  	"orml-xtokens/std",
+  	"orml-xcm-support/std",
 
 ]
 runtime-benchmarks = [
@@ -226,6 +259,8 @@ runtime-benchmarks = [
 	"pallet-identity/runtime-benchmarks",
 	"pallet-indices/runtime-benchmarks",
 	"pallet-ethereum/runtime-benchmarks",
+	"pallet-xcm/runtime-benchmarks",
+	"xcm-builder/runtime-benchmarks",
 ]
 try-runtime = [
 	"frame-try-runtime/try-runtime",

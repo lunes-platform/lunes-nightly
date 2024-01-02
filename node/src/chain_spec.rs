@@ -188,6 +188,7 @@ pub fn staging_testnet_network_config() -> ChainSpec {
 		// Properties
 		Some(properties),
 		Default::default(),
+		
 	)
 }
 
