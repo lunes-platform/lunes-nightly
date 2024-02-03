@@ -427,6 +427,7 @@ fn testnet_genesis(
 		},
 		transaction_payment: Default::default(),
 		ethereum: Default::default(),
+		base_fee: Default::default(),
 	}
 
 	
@@ -524,6 +525,7 @@ fn mainnet_genesis(
 		},
 		transaction_payment: Default::default(),
 		ethereum: Default::default(),
+		base_fee: Default::default(),
 	}
 
 	
