@@ -148,7 +148,7 @@ pub fn staging_network_config() -> ChainSpec {
 	properties.insert("tokenDecimals".into(), 8.into());
 	properties.insert("ss58Format".into(), 57.into());
 	ChainSpec::from_genesis(
-		"Lunes Nightly",
+		"Lunes Nigthly",
 		"local_node",
 		ChainType::Live,
 		staging_network_config_genesis,
@@ -173,7 +173,7 @@ pub fn staging_testnet_network_config() -> ChainSpec {
 	properties.insert("tokenDecimals".into(), 8.into());
 	properties.insert("ss58Format".into(), 57.into());
 	ChainSpec::from_genesis(
-		"Lunes Nightly",
+		"Lunes Nigthly",
 		"testnet_node",
 		ChainType::Development,
 		staging_test_network_config_genesis,
