@@ -10,15 +10,17 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 pub mod constants;
 /// Generated voter bag information.
 mod voter_bags;
-
 /// Runtime API definition for assets.
 pub mod assets_api;
 use hex_literal::hex;
 use codec::{Decode, Encode};
 use frame_support::{traits::OnUnbalanced, weights::ConstantMultiplier};
+
 use pallet_grandpa::AuthorityId as GrandpaId;
+use sp_consensus_aura::sr25519::AuthorityId as AuraId;
+
 use pallet_election_provider_multi_phase::SolutionAccuracyOf;
-use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
+
 use frame_election_provider_support::{
 	onchain, BalancingConfig, ElectionDataProvider, SequentialPhragmen, VoteWeight,
 };
@@ -46,8 +48,6 @@ use sp_version::RuntimeVersion;
 
 use node_primitives::{AccountIndex, Moment};
 use constants::{currency::*, time::*};
-// Polkadot imports
-use polkadot_runtime_common::{SlowAdjustingFeeUpdate};
 
 #[cfg(any(feature = "std", test))]
 pub use pallet_staking::StakerStatus;
@@ -76,15 +76,11 @@ pub use frame_system::Call as SystemCall;
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 
-use pallet_transaction_payment::{CurrencyAdapter, Multiplier};
+use pallet_transaction_payment::{ConstFeeMultiplier,CurrencyAdapter, Multiplier};
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 use pallet_nfts::PalletFeatures;
-use pallet_evm::{ EnsureAddressTruncated, HashedAddressMapping};
-pub mod precompiles;
-pub use precompiles::FrontierPrecompiles;
-use sp_core::U256;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -107,18 +103,12 @@ pub type Hash = sp_core::H256;
 
 impl_opaque_keys! {
 	pub struct SessionKeys {
-		pub babe: Babe,
+		pub aura: Aura,
 		pub grandpa: Grandpa,
-		pub im_online: ImOnline,
 	}
 }
 
-/// The BABE epoch configuration at genesis.
-pub const BABE_GENESIS_EPOCH_CONFIG: sp_consensus_babe::BabeEpochConfiguration =
-	sp_consensus_babe::BabeEpochConfiguration {
-		c: PRIMARY_PROBABILITY,
-		allowed_slots: sp_consensus_babe::AllowedSlots::PrimaryAndSecondaryPlainSlots,
-	};
+
 
 // To learn more about runtime versioning, see:
 // https://docs.substrate.io/main-docs/build/upgrade#runtime-versioning
@@ -224,20 +214,13 @@ parameter_types! {
 	pub const ExpectedBlockTime: Moment = MILLISECS_PER_BLOCK;
 	pub const ReportLongevity: u64 = 24 * 28 * 6 * EpochDuration::get();
 		// BondingDuration::get() as u64 * SessionsPerEra::get() as u64 * EpochDuration::get();
-	pub const MaxAuthorities: u32 = 100;
+	//pub const MaxAuthorities: u32 = 100;
 }
 
-impl pallet_babe::Config for Runtime {
-	type EpochDuration = EpochDuration;
-	type ExpectedBlockTime = ExpectedBlockTime;
-	type EpochChangeTrigger = pallet_babe::ExternalTrigger;
-	type DisabledValidators = Session;
-	type WeightInfo = ();
-	type MaxAuthorities = MaxAuthorities;
-	type KeyOwnerProof =
-		<Historical as KeyOwnerProofSystem<(KeyTypeId, pallet_babe::AuthorityId)>>::Proof;
-	type EquivocationReportSystem =
-		pallet_babe::EquivocationReportSystem<Self, Offences, Historical, ReportLongevity>;
+impl pallet_aura::Config for Runtime {
+	type AuthorityId = AuraId;
+	type DisabledValidators = ();
+	type MaxAuthorities = ConstU32<32>;
 }
 
 impl pallet_grandpa::Config for Runtime {
@@ -254,7 +237,7 @@ impl pallet_grandpa::Config for Runtime {
 impl pallet_timestamp::Config for Runtime {
 	/// A timestamp: milliseconds since the unix epoch.
 	type Moment = u64;
-	type OnTimestampSet = Babe;
+	type OnTimestampSet = Aura;
 	type MinimumPeriod = ConstU64<{ SLOT_DURATION / 2 }>;
 	type WeightInfo = ();
 }
@@ -273,7 +256,7 @@ impl pallet_balances::Config for Runtime {
 	type DustRemoval = ();
 	type AccountStore = System;
 	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
-	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
+	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;	
 }
 pub struct WeightToFeeLunes;
 impl WeightToFeePolynomial for WeightToFeeLunes {
@@ -349,7 +332,7 @@ impl pallet_transaction_payment::Config for Runtime {
 	type OperationalFeeMultiplier = ConstU8<5>;
 	type WeightToFee = WeightToFeeLunes;
 	type LengthToFee = ConstantMultiplier<Balance, TransactionByteFee>;
-	type FeeMultiplierUpdate = SlowAdjustingFeeUpdate<Self>;
+	type FeeMultiplierUpdate = ConstFeeMultiplier<FeeMultiplier>;
 }
 
 impl pallet_sudo::Config for Runtime {
@@ -534,22 +517,6 @@ impl pallet_bags_list::Config<VoterBagsListInstance> for Runtime {
 	type WeightInfo = pallet_bags_list::weights::SubstrateWeight<Runtime>;
 }
 
-impl pallet_session::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-	type ValidatorId = <Self as frame_system::Config>::AccountId;
-	type ValidatorIdOf = pallet_staking::StashOf<Self>;
-	type ShouldEndSession = Babe;
-	type NextSessionRotation = Babe;
-	type SessionManager = pallet_session::historical::NoteHistoricalRoot<Self, Staking>;
-	type SessionHandler = <SessionKeys as OpaqueKeys>::KeyTypeIdProviders;
-	type Keys = SessionKeys;
-	type WeightInfo = pallet_session::weights::SubstrateWeight<Runtime>;
-}
-
-impl pallet_session::historical::Config for Runtime {
-	type FullIdentification = pallet_staking::Exposure<AccountId, Balance>;
-	type FullIdentificationOf = pallet_staking::ExposureOf<Runtime>;
-}
 pallet_staking_reward_curve::build! {
 	const REWARD_CURVE: PiecewiseLinear<'static> = curve!(
 		min_inflation: 0_025_000,
@@ -578,6 +545,10 @@ impl pallet_staking::BenchmarkingConfig for StakingBenchmarkingConfig {
 	type MaxValidators = ConstU32<1000>;
 	
 }
+impl pallet_authorship::Config for Runtime {
+	type FindAuthor = pallet_session::FindAccountFromAuthorIndex<Self, Aura>;
+	type EventHandler = Staking;
+}
 
 impl pallet_staking::Config for Runtime {
 	type MaxNominations = MaxNominations;
@@ -586,9 +557,9 @@ impl pallet_staking::Config for Runtime {
 	type UnixTime = Timestamp;
 	type CurrencyToVote = U128CurrencyToVote;
 	
-	type RewardRemainder = (); // TODO Treasury
+	type RewardRemainder = TreasuryLunes; // TODO Treasury
 	type RuntimeEvent = RuntimeEvent;
-	type Slash = (); // TODO Treasury send the slashed funds to the treasury.
+	type Slash = TreasuryLunes; // TODO Treasury send the slashed funds to the treasury.
 	type Reward = (); // rewards are minted from the void
 	type SessionsPerEra = SessionsPerEra;
 	type BondingDuration = BondingDuration;
@@ -616,9 +587,27 @@ impl pallet_staking::Config for Runtime {
 	type BenchmarkingConfig = StakingBenchmarkingConfig;
 }
 
-impl pallet_authorship::Config for Runtime {
-	type FindAuthor = pallet_session::FindAccountFromAuthorIndex<Self, Babe>;
-	type EventHandler = (Staking, ImOnline);
+parameter_types! {
+	pub const SessionPeriod: u32 = 30;
+	pub const Offset: u32 = 0;
+	pub const MaxAuthorities: u32 = 200;
+}
+
+impl pallet_session::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type ValidatorId = <Self as frame_system::Config>::AccountId;
+	type ValidatorIdOf = pallet_staking::StashOf<Self>;
+	type ShouldEndSession = pallet_session::PeriodicSessions<SessionPeriod, Offset>;
+    type NextSessionRotation = pallet_session::PeriodicSessions<SessionPeriod, Offset>;
+	type SessionManager = pallet_session::historical::NoteHistoricalRoot<Self, Staking>;
+	type SessionHandler = <SessionKeys as OpaqueKeys>::KeyTypeIdProviders;
+	type Keys = SessionKeys;
+	type WeightInfo = pallet_session::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_session::historical::Config for Runtime {
+	type FullIdentification = pallet_staking::Exposure<AccountId, Balance>;
+	type FullIdentificationOf = pallet_staking::ExposureOf<Runtime>;
 }
 
 impl pallet_utility::Config for Runtime {
@@ -686,19 +675,6 @@ where
 impl frame_system::offchain::SigningTypes for Runtime {
 	type Public = <Signature as traits::Verify>::Signer;
 	type Signature = Signature;
-}
-
-impl pallet_im_online::Config for Runtime {
-	type AuthorityId = ImOnlineId;
-	type RuntimeEvent = RuntimeEvent;
-	type NextSessionRotation = Babe;
-	type ValidatorSet = Historical;
-	type ReportUnresponsiveness = Offences;
-	type UnsignedPriority = ImOnlineUnsignedPriority;
-	type WeightInfo = pallet_im_online::weights::SubstrateWeight<Runtime>;
-	type MaxKeys = MaxKeys;
-	type MaxPeerInHeartbeats = MaxPeerInHeartbeats;
-	type MaxPeerDataEncodingSize = MaxPeerDataEncodingSize;
 }
 
 parameter_types! {
@@ -1135,57 +1111,7 @@ impl pallet_scored_pool::Config for Runtime {
 	type Score = u64;
 	type ScoreOrigin = EnsureSigned<AccountId>;
 	type MaximumMembers = ConstU32<10>;
-}
-
-
-parameter_types! {
-	pub BlockGasLimit: U256 = U256::from(10);
-	pub WeightPerGas: Weight = Weight::from_parts(50, 0);
-	pub PrecompilesValue: FrontierPrecompiles<Runtime> = FrontierPrecompiles::<_>::new();
 }		
-
-#[cfg(not(feature = "beresheet-runtime"))]
-parameter_types! {
-	pub const EthChainId: u64 = 2021;
-}
-
-#[cfg(feature = "beresheet-runtime")]
-parameter_types! {
-	pub const EthChainId: u64 = 2022;
-}
-
-impl pallet_evm::Config for Runtime {
-	
-	type FeeCalculator = pallet_dynamic_fee::Pallet<Self>; //TO DO
-	type GasWeightMapping = pallet_evm::FixedGasWeightMapping<Self>;
-	type WeightPerGas = WeightPerGas;
-
-	type BlockHashMapping = pallet_evm::SubstrateBlockHashMapping<Self>;
-	type CallOrigin = EnsureAddressTruncated;
-
-	type WithdrawOrigin = EnsureAddressTruncated;
-	type AddressMapping = HashedAddressMapping<BlakeTwo256>;
-	type Currency = Balances;
-
-	type RuntimeEvent = RuntimeEvent;
-	type PrecompilesType = FrontierPrecompiles<Self>;
-	type PrecompilesValue = PrecompilesValue;
-	type ChainId = EthChainId; //TO DO
-	type BlockGasLimit = BlockGasLimit;
-	type Runner = pallet_evm::runner::stack::Runner<Self>;
-	type OnChargeTransaction = ();
-	type OnCreate = ();
-	type FindAuthor = ();//TO DO
-	type Timestamp = Timestamp;
-	type WeightInfo = ();
-}
-parameter_types! {
-	pub BoundDivision: U256 = U256::from(1024);
-}
-
-impl pallet_dynamic_fee::Config for Runtime {
-	type MinGasPriceBoundDivisor = BoundDivision;
-}
 
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -1198,23 +1124,21 @@ construct_runtime!(
 	{
 		System: frame_system,
 		Timestamp: pallet_timestamp,
-		Babe: pallet_babe,
+		Aura: pallet_aura,
 		Grandpa: pallet_grandpa,
 		Balances: pallet_balances,
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
-		// Authorship must be before session in order to note author in the correct session and era
-		// for im-online and staking.
+
 		Authorship: pallet_authorship,
 		Utility: pallet_utility,
 		Offences: pallet_offences,
-		ImOnline: pallet_im_online,
 		// staking related pallets
 		ElectionProviderMultiPhase: pallet_election_provider_multi_phase,
+		Historical: pallet_session::historical::{Pallet},
 		Staking: pallet_staking,
 		Session: pallet_session,
 		VoterList: pallet_bags_list::<Instance1>,
-		Historical: pallet_session::historical::{Pallet},
 		Democracy: pallet_democracy,
 		Council: pallet_collective::<Instance1>,
 		TechnicalCommittee: pallet_collective::<Instance2>,
@@ -1232,10 +1156,8 @@ construct_runtime!(
 		Identity: pallet_identity,
 		Indices: pallet_indices,
 		Nicks: pallet_nicks,
-		Swap:pallet_atomic_swap,
 		ScoredPool: pallet_scored_pool,
-		EVM: pallet_evm,
-		DynamicFee: pallet_dynamic_fee,	
+		Swap:pallet_atomic_swap,
 	}
 );
 
@@ -1283,8 +1205,7 @@ mod benches {
 		[pallet_balances, Balances]
 		[pallet_timestamp, Timestamp]
 		[pallet_utility, Utility]
-		[pallet_offences, OffencesBench::<Runtime>]
-		[pallet_im_online, ImOnline]
+		[pallet_offences, OffencesBench::<Runtime>]		
 		[pallet_democracy, Democracy]
 		[pallet_collective, Council]
 		[pallet_treasury, Treasury]
@@ -1299,10 +1220,8 @@ mod benches {
 		[pallet_identity, Identity]
 		[pallet_indices, Indices]
 		[pallet_nicks,Nicks]
-		[pallet_atomic_swap, Swap]
 		[pallet_scored_pool, ScoredPool]
-		[pallet_evm, EVM]
-		[pallet_dynamic_fee, DynamicFee]
+		[pallet_atomic_swap, Swap]
 	);
 }
 
@@ -1364,52 +1283,13 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl sp_consensus_babe::BabeApi<Block> for Runtime {
-		fn configuration() -> sp_consensus_babe::BabeConfiguration {
-			let epoch_config = Babe::epoch_config().unwrap_or(BABE_GENESIS_EPOCH_CONFIG);
-			sp_consensus_babe::BabeConfiguration {
-				slot_duration: Babe::slot_duration(),
-				epoch_length: EpochDuration::get(),
-				c: epoch_config.c,
-				authorities: Babe::authorities().to_vec(),
-				randomness: Babe::randomness(),
-				allowed_slots: epoch_config.allowed_slots,
-			}
+	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
+		fn slot_duration() -> sp_consensus_aura::SlotDuration {
+			sp_consensus_aura::SlotDuration::from_millis(Aura::slot_duration())
 		}
 
-		fn current_epoch_start() -> sp_consensus_babe::Slot {
-			Babe::current_epoch_start()
-		}
-
-		fn current_epoch() -> sp_consensus_babe::Epoch {
-			Babe::current_epoch()
-		}
-
-		fn next_epoch() -> sp_consensus_babe::Epoch {
-			Babe::next_epoch()
-		}
-
-		fn generate_key_ownership_proof(
-			_slot: sp_consensus_babe::Slot,
-			authority_id: sp_consensus_babe::AuthorityId,
-		) -> Option<sp_consensus_babe::OpaqueKeyOwnershipProof> {
-			use codec::Encode;
-
-			Historical::prove((sp_consensus_babe::KEY_TYPE, authority_id))
-				.map(|p| p.encode())
-				.map(sp_consensus_babe::OpaqueKeyOwnershipProof::new)
-		}
-
-		fn submit_report_equivocation_unsigned_extrinsic(
-			equivocation_proof: sp_consensus_babe::EquivocationProof<<Block as BlockT>::Header>,
-			key_owner_proof: sp_consensus_babe::OpaqueKeyOwnershipProof,
-		) -> Option<()> {
-			let key_owner_proof = key_owner_proof.decode()?;
-
-			Babe::submit_unsigned_equivocation_report(
-				equivocation_proof,
-				key_owner_proof,
-			)
+		fn authorities() -> Vec<AuraId> {
+			Aura::authorities().into_inner()
 		}
 	}
 
@@ -1698,6 +1578,7 @@ impl_runtime_apis! {
 			Executive::try_execute_block(block, state_root_check, signature_check, select).expect("execute-block failed")
 		}
 	}
+	
 }
 
 #[cfg(test)]

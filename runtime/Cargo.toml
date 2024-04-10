@@ -20,7 +20,7 @@ smallvec = "1.9.0"
 evm-runtime = { version = "0.37.0", default-features = false }
 hex-literal = "0.3.4"
 
-pallet-babe = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+pallet-aura = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-balances = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 frame-support = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-grandpa = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
@@ -38,12 +38,11 @@ pallet-authorship = { version = "4.0.0-dev", default-features = false, git = "ht
 pallet-utility = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-offences = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-offences-benchmarking = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40", optional = true }
-pallet-im-online = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 frame-election-provider-support = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 frame-executive = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 sp-api = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 sp-block-builder = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
-sp-consensus-babe = { version = "0.10.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+sp-consensus-aura = { version = "0.10.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 sp-consensus-grandpa = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 sp-core = { version = "7.0.0", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 sp-inherents = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
@@ -77,18 +76,6 @@ pallet-indices = { version = "4.0.0-dev", default-features = false, git = "https
 pallet-nicks = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-atomic-swap =  { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 pallet-scored-pool =  { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
-polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "release-v0.9.40" }
-pallet-dynamic-fee = { default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm = { version = "6.0.0-dev", default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-simple = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-blake2 = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40"}
-pallet-evm-precompile-modexp = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-bn128 = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-dispatch = { default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-ed25519 = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-sha3fips = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-pallet-evm-precompile-curve25519 = {  default-features = false, git = "https://github.com/paritytech/frontier.git", branch = "fpt/polkadot-v0.9.40" }
-evm = { version = "0.37.0", default-features = false, features = ["with-codec"] }
 
 # Used for the node template's RPCs
 frame-system-rpc-runtime-api = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
@@ -107,6 +94,7 @@ pallet-common = { version = "4.0.0-dev", default-features = false, path = "../pa
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", git = "https://github.com/paritytech/substrate.git", optional = true , branch = "polkadot-v0.9.40" }
 
+
 [features]
 default = ["std"]
 std = [
@@ -121,7 +109,7 @@ std = [
 	"frame-system-rpc-runtime-api/std",
 	"frame-system/std",
 	"frame-try-runtime/std",
-	"pallet-babe/std",
+	"pallet-aura/std",
 	"pallet-balances/std",
 	"pallet-grandpa/std",
 	"pallet-sudo/std",
@@ -136,10 +124,9 @@ std = [
 	"pallet-authorship/std",
 	"pallet-utility/std",
 	"pallet-offences/std",
-	"pallet-im-online/std",
 	"sp-api/std",
 	"sp-block-builder/std",
-	"sp-consensus-babe/std",
+	"sp-consensus-aura/std",
 	"sp-consensus-grandpa/std",
 	"sp-core/std",
 	"sp-inherents/std",
@@ -170,20 +157,8 @@ std = [
 	"pallet-identity/std",
 	"pallet-indices/std",
 	"pallet-nicks/std",
-	"polkadot-runtime-common/std",
-	"pallet-atomic-swap/std",
 	"pallet-scored-pool/std",
-	"evm-runtime/std",
-	"evm/std",
-	"pallet-evm-precompile-simple/std",
-	"pallet-evm-precompile-modexp/std",
-	"pallet-evm-precompile-ed25519/std",
-	"pallet-evm-precompile-bn128/std",
-	"pallet-evm-precompile-dispatch/std",
-	"pallet-evm-precompile-sha3fips/std",
-	"pallet-evm-precompile-blake2/std",
-	"pallet-evm-precompile-curve25519/std",
-	"pallet-dynamic-fee/std",
+	"pallet-atomic-swap/std",
 
 ]
 runtime-benchmarks = [
@@ -196,7 +171,6 @@ runtime-benchmarks = [
 	"pallet-common/runtime-benchmarks",
 	"pallet-timestamp/runtime-benchmarks",
 	"pallet-utility/runtime-benchmarks",
-	"pallet-im-online/runtime-benchmarks",
 	"pallet-offences-benchmarking",
 	"sp-runtime/runtime-benchmarks",
 	"pallet-democracy/runtime-benchmarks",
@@ -218,7 +192,7 @@ try-runtime = [
 	"frame-executive/try-runtime",
 	"frame-system/try-runtime",
 	"frame-support/try-runtime",
-	"pallet-babe/try-runtime",
+	"pallet-aura/try-runtime",
 	"pallet-balances/try-runtime",
 	"pallet-grandpa/try-runtime",
 	"pallet-sudo/try-runtime",
@@ -241,6 +215,5 @@ try-runtime = [
 	"pallet-indices/try-runtime",
 	"pallet-nicks/try-runtime",
 	"pallet-atomic-swap/try-runtime",
-	"pallet-dynamic-fee/try-runtime"
 ]
 
