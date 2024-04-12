@@ -3,14 +3,9 @@
   "id": "lunes",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
+    "/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWRPPLCvo6qF9cFs8pBzp9W323XrRSvLv1UrJRgmoqdFsS"
   ],
-  "telemetryEndpoints": [
-    [
-      "/dns/telemetry.polkadot.io/tcp/443/x-parity-wss/%2Fsubmit%2F",
-      0
-    ]
-  ],
+  "telemetryEndpoints": null,
   "protocolId": "lunes-mainnet",
   "properties": {
     "ss58Format": 57,
