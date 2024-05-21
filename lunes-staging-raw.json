@@ -6,8 +6,7 @@
     "/dns4/lunes-main-01.lunes.io/tcp/30333/p2p/12D3KooWLsf6whVddgocN6aiDo7reGGSHWMuKJ7ufF7U7myjHCCa",
     "/dns4/lunes-main-02.lunes.io/tcp/30333/p2p/12D3KooWQ9ccE9iKG7tsTTboiQaf2fmdiE4h3sFJHDinXHDKpn7y",
     "/dns4/superblock.lunes.io/tcp/30333/p2p/12D3KooWJCGWhCBeud8LsW9tRKxXzdAFF9B1TXoiFahDE6LWn7Vg",
-    "/dns4/lunesblock.lunes.io/tcp/30333/p2p/12D3KooWFrrUz1u2nV4Xm7w7TNJBsMvefC95oj5JEFr9nqfqssRj",
-    "/dns4/upnode.lunes.io/tcp/30333/p2p/12D3KooWN3YNhUYbet3BaoT9GyE9jsdMR8sxTcBdEfUtetbh2u2x"
+    "/dns4/lunesblock.lunes.io/tcp/30333/p2p/12D3KooWFrrUz1u2nV4Xm7w7TNJBsMvefC95oj5JEFr9nqfqssRj"
   ],
   "telemetryEndpoints": null,
   "protocolId": "lunes-mainnet",

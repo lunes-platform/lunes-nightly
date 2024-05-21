@@ -198,7 +198,7 @@ fn staging_network_config_genesis() -> GenesisConfig {
 			hex!["fa6df89070c009cb37e2baef97b1fb6c34e46618983bad35b307d16b89f57a57"].unchecked_into(),
 			// 5HYUtYaYrQKrfJqueiqEWaoGvU7cPEFFxswScpoHgaUDiRdd
 			hex!["f25c62b6981a74e4be39f79e3d7a164614ea8ee7323d32530fdd80f1c5be10e4"].unchecked_into(),
-			
+
 		),
 		(
 			// 5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5
@@ -207,7 +207,7 @@ fn staging_network_config_genesis() -> GenesisConfig {
 			hex!["94f51898dda2d6492edad1149b81d6f7ee71eeec661dfc7852a74a6d75480b7c"].unchecked_into(),
 			// 5Cj69RXSKsmJdFyyRAhh74SoLEFKpxt5syE8Hra8RHq6Ct1a
 			hex!["1d465b3e1a8cbd4eead242c27483708f2c6ed185c07ba27f6ad5560d7dfad341"].unchecked_into(),
-			
+
 		),
 		(
 			// 5EWYJCEUbGS1PDucHRzz6BZcTfaLPdyRjXi1cZApie9VRo89
@@ -223,7 +223,7 @@ fn staging_network_config_genesis() -> GenesisConfig {
 			// 5CwK8TQUqNARmvjHGWs1KNtrj1HZ68ZDsy452opEMhzPid2r
 			hex!["269901cb7f727e506d402b858622a08b0dd9203144abfb8364af21e523d95d4c"].unchecked_into(),
 			// 5FjBHnZrwuF5mEePMA7srQQaAy9kdCjeziHxqC6GhBZsWoAA
-			hex!["a20c5fa77833dc4d607b3416da5eaec272afc52117d3fcd600c4012822c8b670"].unchecked_into(),			
+			hex!["a20c5fa77833dc4d607b3416da5eaec272afc52117d3fcd600c4012822c8b670"].unchecked_into(),
 		)
 	];
 
@@ -235,18 +235,18 @@ fn staging_network_config_genesis() -> GenesisConfig {
 	.into();
 	//c<AccountId>, <Balnance>
 	let mut endowed_accounts: Vec<(sp_runtime::AccountId32, Balance)> = vec![];
-	endowed_accounts.push((hex!["663061efaa2334649267572ad07bf9004e0343bccba8569fdab0bddf570a5249"].into(), INITIAL_COLLATOR_STAKING)); 
-	endowed_accounts.push((hex!["6aac7cb8ad6554a15672cb6be4e7fce3d98bb0c12acf4c88e68a71bcf3fdbc30"].into(), INITIAL_COLLATOR_STAKING)); 
-	endowed_accounts.push((hex!["6c2caa79eda8d94521bf988d7b8ac8a7e0182490f342ec62bfb5b5c17745be0b"].into(), INITIAL_COLLATOR_STAKING)); 
-	endowed_accounts.push((hex!["60d4d2d5638cfd111a3159ca4e9aa9efb5b841f5f06442bafcc242200c3ed544"].into(), INITIAL_COLLATOR_STAKING)); 
-	
+	endowed_accounts.push((hex!["663061efaa2334649267572ad07bf9004e0343bccba8569fdab0bddf570a5249"].into(), INITIAL_COLLATOR_STAKING));
+	endowed_accounts.push((hex!["6aac7cb8ad6554a15672cb6be4e7fce3d98bb0c12acf4c88e68a71bcf3fdbc30"].into(), INITIAL_COLLATOR_STAKING));
+	endowed_accounts.push((hex!["6c2caa79eda8d94521bf988d7b8ac8a7e0182490f342ec62bfb5b5c17745be0b"].into(), INITIAL_COLLATOR_STAKING));
+	endowed_accounts.push((hex!["60d4d2d5638cfd111a3159ca4e9aa9efb5b841f5f06442bafcc242200c3ed544"].into(), INITIAL_COLLATOR_STAKING));
+
 
 	mainnet_genesis(
 		wasm_binary,
 		initial_authorities,
 		root_key,
 		endowed_accounts.clone(),
-		true,
+		false,
 	)
 }
 
@@ -266,7 +266,7 @@ fn staging_test_network_config_genesis() -> GenesisConfig {
 			hex!["fa6df89070c009cb37e2baef97b1fb6c34e46618983bad35b307d16b89f57a57"].unchecked_into(),
 			// 5HYUtYaYrQKrfJqueiqEWaoGvU7cPEFFxswScpoHgaUDiRdd
 			hex!["f25c62b6981a74e4be39f79e3d7a164614ea8ee7323d32530fdd80f1c5be10e4"].unchecked_into(),
-			
+
 		),
 		(
 			// 5EUaAwztzTkBXqvgwh7VE13tQMVjkwBcwcuejcZDXMGrrTf5
@@ -274,7 +274,7 @@ fn staging_test_network_config_genesis() -> GenesisConfig {
 			// 5FS1kcp2e8pYndoLKo8uAsaYGWeZD1DybZDGLQy6RuG6UqVb
 			hex!["94f51898dda2d6492edad1149b81d6f7ee71eeec661dfc7852a74a6d75480b7c"].unchecked_into(),
 			// 5Cj69RXSKsmJdFyyRAhh74SoLEFKpxt5syE8Hra8RHq6Ct1a
-			hex!["1d465b3e1a8cbd4eead242c27483708f2c6ed185c07ba27f6ad5560d7dfad341"].unchecked_into(),			
+			hex!["1d465b3e1a8cbd4eead242c27483708f2c6ed185c07ba27f6ad5560d7dfad341"].unchecked_into(),
 		)
 	];
 
@@ -286,9 +286,9 @@ fn staging_test_network_config_genesis() -> GenesisConfig {
 	.into();
 	//c<AccountId>, <Balnance>
 	let mut endowed_accounts: Vec<(sp_runtime::AccountId32, Balance)> = vec![];
-	endowed_accounts.push((hex!["663061efaa2334649267572ad07bf9004e0343bccba8569fdab0bddf570a5249"].into(), INITIAL_COLLATOR_STAKING)); 
-	endowed_accounts.push((hex!["6aac7cb8ad6554a15672cb6be4e7fce3d98bb0c12acf4c88e68a71bcf3fdbc30"].into(), INITIAL_COLLATOR_STAKING)); 
-	
+	endowed_accounts.push((hex!["663061efaa2334649267572ad07bf9004e0343bccba8569fdab0bddf570a5249"].into(), INITIAL_COLLATOR_STAKING));
+	endowed_accounts.push((hex!["6aac7cb8ad6554a15672cb6be4e7fce3d98bb0c12acf4c88e68a71bcf3fdbc30"].into(), INITIAL_COLLATOR_STAKING));
+
 
 	mainnet_genesis(
 		wasm_binary,
@@ -305,15 +305,18 @@ fn mainnet_genesis(
 	initial_authorities: Vec<(
 		AccountId,
 		AuraId,
-		GrandpaId, 
+		GrandpaId,
 	)>,
 	root_key: AccountId,
 	mut endowed_accounts: Vec<(AccountId , Balance)>,
-	_enable_println: bool,
+	_enable_testnet: bool,
 ) -> GenesisConfig {
 	// endow all authorities and nominators.
 	let mut genesis_issuance = TOTAL_INITIAL_ISSUANCE_LUNES;
-	
+	if _enable_testnet {
+		genesis_issuance = TOTAL_INITIAL_ISSUANCE_LUNES_TEST;
+	}
+
 	for balance in endowed_accounts.clone() {
 		genesis_issuance -= balance.1;
 	}
@@ -370,7 +373,7 @@ fn mainnet_genesis(
 		technical_committee: TechnicalCommitteeConfig {
 			members: council,
 			..Default::default()
-		},		
+		},
 		treasury: Default::default(),
 		alliance_motion: Default::default(),
 		assets: pallet_assets::GenesisConfig {
@@ -386,5 +389,5 @@ fn mainnet_genesis(
 		transaction_payment: Default::default(),
 	}
 
-	
+
 }

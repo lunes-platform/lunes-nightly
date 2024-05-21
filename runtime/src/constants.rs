@@ -13,14 +13,14 @@ pub mod currency {
     pub const MIN_NOMINATOR_BOND: Balance = 100 * UNIT;
 
     pub const TOTAL_INITIAL_ISSUANCE_LUNES: Balance = 200_000_000 * UNIT;
-	pub const TOTAL_INITIAL_ISSUANCE_LUNES_TESTE: Balance = 10_000_000_000 * UNIT;
+	pub const TOTAL_INITIAL_ISSUANCE_LUNES_TEST: Balance = 10_000_000_000 * UNIT;
     pub const INITIAL_COLLATOR_STAKING: Balance = 50_000 * UNIT;
 	pub const TOKEN_DECIMALS: u32 = 8;
 	pub const TOKEN: u128 = 10u128.pow(TOKEN_DECIMALS);
 	pub const CONTRACT_DEPOSIT_PER_BYTE: Balance = 4 * (TOKEN / 10000_000);
     pub const fn deposit(items: u32, bytes: u32) -> Balance {
 		items as Balance * 15 * UNIT + (bytes as Balance) * 6 * UNIT
-	}	
+	}
 }
 
 /// Time.
