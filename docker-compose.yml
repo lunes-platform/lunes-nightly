@@ -3,15 +3,11 @@ version: "3.2"
 services:
   dev:
     container_name: node-lunes
-    image: paritytech/ci-linux:974ba3ac-20201006
-    working_dir: /var/www/lunes-nightly
+    build: .
+    environment:
+      - CARGO_HOME=/.cargo
     ports:
       - "9944:9944"
-    environment:
-      - CARGO_HOME=/var/www/lunes-nightly/.cargo
     volumes:
       - .:/var/www/lunes-nightly
-      - type: bind
-        source: ./.local
-        target: /root/.local
-    command: bash -c "cargo build --release && ./target/release/lunes-node --dev --ws-external"
+    command: bash -c "ls && ./lunes-node --dev --ws-external"
