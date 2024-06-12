@@ -6,6 +6,7 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+pub mod chain_extension;
 /// Constant values used within the runtime.
 pub mod constants;
 /// Generated voter bag information.
@@ -48,7 +49,7 @@ use sp_version::RuntimeVersion;
 
 use node_primitives::{AccountIndex, Moment};
 use constants::{currency::*, time::*};
-
+use chain_extension::Psp22Extension;
 #[cfg(any(feature = "std", test))]
 pub use pallet_staking::StakerStatus;
 
@@ -704,7 +705,7 @@ impl pallet_contracts::Config for Runtime {
 	type CallStack = [pallet_contracts::Frame<Self>; 16];
 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Self>;
-	type ChainExtension = ();
+	//type ChainExtension = ();
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
 	type Schedule = Schedule;
@@ -713,6 +714,7 @@ impl pallet_contracts::Config for Runtime {
 	type MaxStorageKeyLen = ConstU32<128>;
 	type UnsafeUnstableInterface = ConstBool<false>;
 	type MaxDebugBufferLen = ConstU32<{ 2 * 1024 * 1024 }>;
+	type ChainExtension = Psp22Extension;
 	
 }
 
