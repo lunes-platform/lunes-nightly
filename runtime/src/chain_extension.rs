@@ -78,6 +78,8 @@ struct Psp22ApproveInput<AssetId, AccountId, Balance> {
     value: Balance,
 }
 
+
+
 #[derive(Default)]
 pub struct Psp22Extension;
 
@@ -233,10 +235,13 @@ where
     let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
     // debug_message weight is a good approximation of the additional overhead of going from
     // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
+    let overhead = Weight::from_parts(
         <T as pallet_contracts::Config>::Schedule::get()
             .host_fn_weights
             .debug_message.ref_time(),
+        <T as pallet_contracts::Config>::Schedule::get()
+            .host_fn_weights
+            .debug_message.proof_size()
     );
     let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
     trace!(
@@ -275,10 +280,13 @@ where
     let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
     // debug_message weight is a good approximation of the additional overhead of going from
     // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
+    let overhead = Weight::from_parts(
         <T as pallet_contracts::Config>::Schedule::get()
             .host_fn_weights
             .debug_message.ref_time(),
+        <T as pallet_contracts::Config>::Schedule::get()
+            .host_fn_weights
+            .debug_message.proof_size()
     );
     let charged_amount = env.charge_weight(base_weight.saturating_add(overhead))?;
     trace!(
@@ -316,10 +324,13 @@ where
     let base_weight = <T as pallet_assets::Config>::WeightInfo::approve_transfer();
     // debug_message weight is a good approximation of the additional overhead of going from
     // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
+    let overhead = Weight::from_parts(
         <T as pallet_contracts::Config>::Schedule::get()
             .host_fn_weights
             .debug_message.ref_time(),
+        <T as pallet_contracts::Config>::Schedule::get()
+            .host_fn_weights
+            .debug_message.proof_size()
     );
     let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
     trace!(
@@ -360,10 +371,13 @@ where
         .saturating_add(<T as pallet_assets::Config>::WeightInfo::approve_transfer());
     // debug_message weight is a good approximation of the additional overhead of going from
     // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
+    let overhead = Weight::from_parts(
         <T as pallet_contracts::Config>::Schedule::get()
             .host_fn_weights
             .debug_message.ref_time(),
+        <T as pallet_contracts::Config>::Schedule::get()
+            .host_fn_weights
+            .debug_message.proof_size()
     );
     let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
     trace!(
@@ -439,6 +453,7 @@ where
             // for Mutate::approve does not specify the result of subsequent calls.
             FuncId::Approve | FuncId::IncreaseAllowance => approve::<T, E>(env)?,
             FuncId::DecreaseAllowance => decrease_allowance(env)?,
+            
         }
 
         Ok(RetVal::Converging(0))
