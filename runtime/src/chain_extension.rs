@@ -78,7 +78,19 @@ struct Psp22ApproveInput<AssetId, AccountId, Balance> {
     value: Balance,
 }
 
+#[derive(Debug, PartialEq, Encode, Decode, MaxEncodedLen)]
+struct Psp22BurnInput<AssetId, AccountId, Balance> {
+    asset_id: AssetId,
+    from: AccountId,
+    value: Balance,
+}
 
+#[derive(Debug, PartialEq, Encode, Decode, MaxEncodedLen)]
+struct Psp22MintInput<AssetId, AccountId, Balance> {
+    asset_id: AssetId,
+    to: AccountId,
+    value: Balance,
+}
 
 #[derive(Default)]
 pub struct Psp22Extension;
@@ -104,6 +116,8 @@ enum FuncId {
     Approve,
     IncreaseAllowance,
     DecreaseAllowance,
+    Burn,
+    Mint,
 }
 
 #[derive(Debug)]
@@ -138,6 +152,8 @@ impl TryFrom<u16> for FuncId {
             0xb20f => Self::Approve,
             0x96d6 => Self::IncreaseAllowance,
             0xfecb => Self::DecreaseAllowance,
+            0x9e55 => Self::Burn,
+            0x6bba => Self::Mint,
             _ => {
                 error!("Called an unregistered `func_id`: {:}", func_id);
                 return Err(DispatchError::Other("Unimplemented func_id"))
@@ -428,6 +444,55 @@ where
 
     Ok(())
 }
+fn burn<T, E>(env: Environment<E, InitState>) -> Result<(), DispatchError>
+where
+    T: pallet_assets::Config + pallet_contracts::Config,
+    <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
+    E: Ext<T = T>,
+{
+    let mut env = env.buf_in_buf_out();
+    let input: Psp22BurnInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
+    let caller = env.ext().caller();
+
+    <pallet_assets::Pallet<T>>::burn(
+        RawOrigin::Signed(caller.clone()).into(),
+        input.asset_id.into(),
+        T::Lookup::unlookup(input.from.clone()),
+        input.value,
+    ).map_err(convert_err("ChainExtension failed to call burn"))?;
+
+    trace!(
+        target: "runtime",
+        "[ChainExtension]|call|burn"
+    );
+
+    Ok(())
+}
+
+fn mint<T, E>(env: Environment<E, InitState>) -> Result<(), DispatchError>
+where
+    T: pallet_assets::Config + pallet_contracts::Config,
+    <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
+    E: Ext<T = T>,
+{
+    let mut env = env.buf_in_buf_out();
+    let input: Psp22MintInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
+    let caller = env.ext().caller();
+
+    <pallet_assets::Pallet<T>>::mint(
+        RawOrigin::Signed(caller.clone()).into(),
+        input.asset_id.into(),
+        T::Lookup::unlookup(input.to.clone()),
+        input.value,
+    ).map_err(convert_err("ChainExtension failed to call mint"))?;
+
+    trace!(
+        target: "runtime",
+        "[ChainExtension]|call|mint"
+    );
+
+    Ok(())
+}
 
 impl<T> ChainExtension<T> for Psp22Extension
 where
@@ -453,6 +518,8 @@ where
             // for Mutate::approve does not specify the result of subsequent calls.
             FuncId::Approve | FuncId::IncreaseAllowance => approve::<T, E>(env)?,
             FuncId::DecreaseAllowance => decrease_allowance(env)?,
+            FuncId::Burn => burn(env)?,
+            FuncId::Mint => mint(env)?,
             
         }
 
