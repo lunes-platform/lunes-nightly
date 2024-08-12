@@ -10,7 +10,6 @@ RestartSec=1
 User=root
 ExecStart=/root/lunes-nightly/target/release/lunes-node \
                         --chain  /root/lunes-nightly/lunes-staging-raw.json -d /data/validator \
-                        --name validator2 --validator --port 30334 --ws-port 9946 --rpc-port 9934 \
-                        --bootnodes /ip4/<your-bootnode-ip>/tcp/30333/p2p/<your-bootnode-peerid> 
+                        --name validator2 --validator --port 30333 --ws-port 9944 --rpc-port 9933
 [Install]
 WantedBy=multi-user.target
