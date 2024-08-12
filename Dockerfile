@@ -5,5 +5,5 @@ RUN apt update
 WORKDIR /usr/src/app
 RUN rm -r /usr/src/app
 COPY /artefacts .
-
+COPY lunes-staging-raw.json .
 EXPOSE 9944
