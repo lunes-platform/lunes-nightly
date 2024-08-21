@@ -5,10 +5,6 @@ use codec::{
 };
 use frame_support::{
     dispatch::RawOrigin,
-    log::{
-        error,
-        trace,
-    },
     pallet_prelude::*,
     traits::fungibles::{
         approvals::{
@@ -96,12 +92,7 @@ struct Psp22MintInput<AssetId, AccountId, Balance> {
 pub struct Psp22Extension;
 
 fn convert_err(err_msg: &'static str) -> impl FnOnce(DispatchError) -> DispatchError {
-    move |err| {
-        trace!(
-            target: "runtime",
-            "PSP22 Transfer failed:{:?}",
-            err
-        );
+    move |err| {     
         DispatchError::Other(err_msg)
     }
 }
@@ -155,7 +146,6 @@ impl TryFrom<u16> for FuncId {
             0x9e55 => Self::Burn,
             0x6bba => Self::Mint,
             _ => {
-                error!("Called an unregistered `func_id`: {:}", func_id);
                 return Err(DispatchError::Other("Unimplemented func_id"))
             }
         };
@@ -190,12 +180,7 @@ where
             )
             .encode()
         }
-    };
-    trace!(
-        target: "runtime",
-        "[ChainExtension] PSP22Metadata::{:?}",
-        func_id
-    );
+    };    
     env.write(&result, false, None)
         .map_err(convert_err("ChainExtension failed to call PSP22Metadata"))
 }
@@ -232,11 +217,7 @@ where
         }
     }
     .encode();
-    trace!(
-        target: "runtime",
-        "[ChainExtension] PSP22::{:?}",
-        func_id
-    );
+    
     env.write(&result, false, None)
         .map_err(convert_err("ChainExtension failed to call PSP22 query"))
 }
@@ -259,12 +240,7 @@ where
             .host_fn_weights
             .debug_message.proof_size()
     );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer / charge_weight:{:?}",
-        charged_weight
-    );
+    
 
     let input: Psp22TransferInput<T::AssetId, T::AccountId, T::Balance> =
         env.read_as()?;
@@ -278,10 +254,7 @@ where
         true,
     )
     .map_err(convert_err("ChainExtension failed to call transfer"))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer"
-    );
+    
 
     Ok(())
 }
@@ -304,12 +277,7 @@ where
             .host_fn_weights
             .debug_message.proof_size()
     );
-    let charged_amount = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer / charge_weight:{:?}",
-        charged_amount
-    );
+   
 
     let input: Psp22TransferFromInput<T::AssetId, T::AccountId, T::Balance> =
         env.read_as()?;
@@ -323,10 +291,7 @@ where
             &input.to,
             input.value,
         );
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer_from"
-    );
+   
     result.map_err(convert_err("ChainExtension failed to call transfer_from"))
 }
 
@@ -348,12 +313,7 @@ where
             .host_fn_weights
             .debug_message.proof_size()
     );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|approve / charge_weight:{:?}",
-        charged_weight
-    );
+  
 
     let input: Psp22ApproveInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
     let owner = env.ext().caller();
@@ -364,10 +324,7 @@ where
         &input.spender,
         input.value,
     );
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|approve"
-    );
+   
     result.map_err(convert_err("ChainExtension failed to call approve"))
 }
 
@@ -396,11 +353,7 @@ where
             .debug_message.proof_size()
     );
     let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|decrease_allowance / charge_weight:{:?}",
-        charged_weight
-    );
+   
 
     let owner = env.ext().caller();
     let mut allowance =
@@ -436,11 +389,7 @@ where
     .map_err(convert_err(
         "ChainExtension failed to call decrease_allowance",
     ))?;
-
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|decrease_allowance"
-    );
+   
 
     Ok(())
 }
@@ -461,11 +410,6 @@ where
         input.value,
     ).map_err(convert_err("ChainExtension failed to call burn"))?;
 
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|burn"
-    );
-
     Ok(())
 }
 
@@ -485,11 +429,6 @@ where
         T::Lookup::unlookup(input.to.clone()),
         input.value,
     ).map_err(convert_err("ChainExtension failed to call mint"))?;
-
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|mint"
-    );
 
     Ok(())
 }
