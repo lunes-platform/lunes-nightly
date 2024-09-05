@@ -3,7 +3,7 @@
   "id": "testnet_node",
   "chainType": "Live",
   "bootNodes": [
-   "/dns4/testnet-01.lunes.io/tcp/30333/p2p/12D3KooWHX3VYWed7BSeLBF9nJmwcddhYAoeXsDb8DUy6nQuNUmT"
+   "/dns4/testnet-01.lunes.io/tcp/30333/p2p/12D3KooWGT3NoSPf8nb3uuCnNzH6yB2qp3g3Qj483YZKu89qoQmp"
   ],
   "protocolId": "lunes-testnet",
   "properties": {
