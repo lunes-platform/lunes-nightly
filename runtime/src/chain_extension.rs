@@ -5,7 +5,6 @@ use codec::{
 };
 use frame_support::{
     dispatch::RawOrigin,
-    pallet_prelude::*,
     traits::fungibles::{
         approvals::{
             Inspect as AllowanceInspect,
@@ -18,8 +17,7 @@ use frame_support::{
     },
 };
 use pallet_assets::{
-    self,
-    WeightInfo,
+    self
 };
 use pallet_contracts::chain_extension::{
     ChainExtension,
@@ -92,7 +90,7 @@ struct Psp22MintInput<AssetId, AccountId, Balance> {
 pub struct Psp22Extension;
 
 fn convert_err(err_msg: &'static str) -> impl FnOnce(DispatchError) -> DispatchError {
-    move |err| {     
+    move |_err| {     
         DispatchError::Other(err_msg)
     }
 }
@@ -229,18 +227,6 @@ where
     E: Ext<T = T>,
 {
     let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_parts(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.proof_size()
-    );
-    
 
     let input: Psp22TransferInput<T::AssetId, T::AccountId, T::Balance> =
         env.read_as()?;
@@ -265,18 +251,7 @@ where
     <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
     E: Ext<T = T>,
 {
-    let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_parts(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.proof_size()
-    );
+    let mut env = env.buf_in_buf_out();    
    
 
     let input: Psp22TransferFromInput<T::AssetId, T::AccountId, T::Balance> =
@@ -302,18 +277,7 @@ where
     E: Ext<T = T>,
 {
     let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::approve_transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_parts(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.proof_size()
-    );
-  
+      
 
     let input: Psp22ApproveInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
     let owner = env.ext().caller();
@@ -339,20 +303,6 @@ where
     if input.value.is_zero() {
         return Ok(())
     }
-
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::cancel_approval()
-        .saturating_add(<T as pallet_assets::Config>::WeightInfo::approve_transfer());
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_parts(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.proof_size()
-    );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
    
 
     let owner = env.ext().caller();
@@ -371,13 +321,7 @@ where
         "ChainExtension failed to call decrease_allowance",
     ))?;
     allowance.saturating_reduce(input.value);
-    if allowance.is_zero() {
-        // If reduce value was less or equal than existing allowance, it should stay none.
-        env.adjust_weight(
-            charged_weight,
-            <T as pallet_assets::Config>::WeightInfo::cancel_approval()
-                .saturating_add(overhead),
-        );
+    if allowance.is_zero() {       
         return Ok(())
     }
     <pallet_assets::Pallet<T> as AllowanceMutate<T::AccountId>>::approve(
