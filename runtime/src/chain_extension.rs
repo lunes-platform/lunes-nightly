@@ -5,11 +5,6 @@ use codec::{
 };
 use frame_support::{
     dispatch::RawOrigin,
-    log::{
-        error,
-        trace,
-    },
-    pallet_prelude::*,
     traits::fungibles::{
         approvals::{
             Inspect as AllowanceInspect,
@@ -22,8 +17,7 @@ use frame_support::{
     },
 };
 use pallet_assets::{
-    self,
-    WeightInfo,
+    self
 };
 use pallet_contracts::chain_extension::{
     ChainExtension,
@@ -78,16 +72,25 @@ struct Psp22ApproveInput<AssetId, AccountId, Balance> {
     value: Balance,
 }
 
+#[derive(Debug, PartialEq, Encode, Decode, MaxEncodedLen)]
+struct Psp22BurnInput<AssetId, AccountId, Balance> {
+    asset_id: AssetId,
+    from: AccountId,
+    value: Balance,
+}
+
+#[derive(Debug, PartialEq, Encode, Decode, MaxEncodedLen)]
+struct Psp22MintInput<AssetId, AccountId, Balance> {
+    asset_id: AssetId,
+    to: AccountId,
+    value: Balance,
+}
+
 #[derive(Default)]
 pub struct Psp22Extension;
 
 fn convert_err(err_msg: &'static str) -> impl FnOnce(DispatchError) -> DispatchError {
-    move |err| {
-        trace!(
-            target: "runtime",
-            "PSP22 Transfer failed:{:?}",
-            err
-        );
+    move |_err| {     
         DispatchError::Other(err_msg)
     }
 }
@@ -102,6 +105,8 @@ enum FuncId {
     Approve,
     IncreaseAllowance,
     DecreaseAllowance,
+    Burn,
+    Mint,
 }
 
 #[derive(Debug)]
@@ -136,8 +141,9 @@ impl TryFrom<u16> for FuncId {
             0xb20f => Self::Approve,
             0x96d6 => Self::IncreaseAllowance,
             0xfecb => Self::DecreaseAllowance,
+            0x9e55 => Self::Burn,
+            0x6bba => Self::Mint,
             _ => {
-                error!("Called an unregistered `func_id`: {:}", func_id);
                 return Err(DispatchError::Other("Unimplemented func_id"))
             }
         };
@@ -172,12 +178,7 @@ where
             )
             .encode()
         }
-    };
-    trace!(
-        target: "runtime",
-        "[ChainExtension] PSP22Metadata::{:?}",
-        func_id
-    );
+    };    
     env.write(&result, false, None)
         .map_err(convert_err("ChainExtension failed to call PSP22Metadata"))
 }
@@ -214,11 +215,7 @@ where
         }
     }
     .encode();
-    trace!(
-        target: "runtime",
-        "[ChainExtension] PSP22::{:?}",
-        func_id
-    );
+    
     env.write(&result, false, None)
         .map_err(convert_err("ChainExtension failed to call PSP22 query"))
 }
@@ -230,20 +227,6 @@ where
     E: Ext<T = T>,
 {
     let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-    );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer / charge_weight:{:?}",
-        charged_weight
-    );
 
     let input: Psp22TransferInput<T::AssetId, T::AccountId, T::Balance> =
         env.read_as()?;
@@ -257,10 +240,7 @@ where
         true,
     )
     .map_err(convert_err("ChainExtension failed to call transfer"))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer"
-    );
+    
 
     Ok(())
 }
@@ -271,21 +251,8 @@ where
     <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
     E: Ext<T = T>,
 {
-    let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-    );
-    let charged_amount = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer / charge_weight:{:?}",
-        charged_amount
-    );
+    let mut env = env.buf_in_buf_out();    
+   
 
     let input: Psp22TransferFromInput<T::AssetId, T::AccountId, T::Balance> =
         env.read_as()?;
@@ -299,10 +266,7 @@ where
             &input.to,
             input.value,
         );
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|transfer_from"
-    );
+   
     result.map_err(convert_err("ChainExtension failed to call transfer_from"))
 }
 
@@ -313,20 +277,7 @@ where
     E: Ext<T = T>,
 {
     let mut env = env.buf_in_buf_out();
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::approve_transfer();
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-    );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|approve / charge_weight:{:?}",
-        charged_weight
-    );
+      
 
     let input: Psp22ApproveInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
     let owner = env.ext().caller();
@@ -337,10 +288,7 @@ where
         &input.spender,
         input.value,
     );
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|approve"
-    );
+   
     result.map_err(convert_err("ChainExtension failed to call approve"))
 }
 
@@ -355,22 +303,7 @@ where
     if input.value.is_zero() {
         return Ok(())
     }
-
-    let base_weight = <T as pallet_assets::Config>::WeightInfo::cancel_approval()
-        .saturating_add(<T as pallet_assets::Config>::WeightInfo::approve_transfer());
-    // debug_message weight is a good approximation of the additional overhead of going from
-    // contract layer to substrate layer.
-    let overhead = Weight::from_ref_time(
-        <T as pallet_contracts::Config>::Schedule::get()
-            .host_fn_weights
-            .debug_message.ref_time(),
-    );
-    let charged_weight = env.charge_weight(base_weight.saturating_add(overhead))?;
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|decrease_allowance / charge_weight:{:?}",
-        charged_weight
-    );
+   
 
     let owner = env.ext().caller();
     let mut allowance =
@@ -388,13 +321,7 @@ where
         "ChainExtension failed to call decrease_allowance",
     ))?;
     allowance.saturating_reduce(input.value);
-    if allowance.is_zero() {
-        // If reduce value was less or equal than existing allowance, it should stay none.
-        env.adjust_weight(
-            charged_weight,
-            <T as pallet_assets::Config>::WeightInfo::cancel_approval()
-                .saturating_add(overhead),
-        );
+    if allowance.is_zero() {       
         return Ok(())
     }
     <pallet_assets::Pallet<T> as AllowanceMutate<T::AccountId>>::approve(
@@ -406,11 +333,46 @@ where
     .map_err(convert_err(
         "ChainExtension failed to call decrease_allowance",
     ))?;
+   
 
-    trace!(
-        target: "runtime",
-        "[ChainExtension]|call|decrease_allowance"
-    );
+    Ok(())
+}
+fn burn<T, E>(env: Environment<E, InitState>) -> Result<(), DispatchError>
+where
+    T: pallet_assets::Config + pallet_contracts::Config,
+    <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
+    E: Ext<T = T>,
+{
+    let mut env = env.buf_in_buf_out();
+    let input: Psp22BurnInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
+    let caller = env.ext().caller();
+
+    <pallet_assets::Pallet<T>>::burn(
+        RawOrigin::Signed(caller.clone()).into(),
+        input.asset_id.into(),
+        T::Lookup::unlookup(input.from.clone()),
+        input.value,
+    ).map_err(convert_err("ChainExtension failed to call burn"))?;
+
+    Ok(())
+}
+
+fn mint<T, E>(env: Environment<E, InitState>) -> Result<(), DispatchError>
+where
+    T: pallet_assets::Config + pallet_contracts::Config,
+    <T as SysConfig>::AccountId: UncheckedFrom<<T as SysConfig>::Hash> + AsRef<[u8]>,
+    E: Ext<T = T>,
+{
+    let mut env = env.buf_in_buf_out();
+    let input: Psp22MintInput<T::AssetId, T::AccountId, T::Balance> = env.read_as()?;
+    let caller = env.ext().caller();
+
+    <pallet_assets::Pallet<T>>::mint(
+        RawOrigin::Signed(caller.clone()).into(),
+        input.asset_id.into(),
+        T::Lookup::unlookup(input.to.clone()),
+        input.value,
+    ).map_err(convert_err("ChainExtension failed to call mint"))?;
 
     Ok(())
 }
@@ -439,6 +401,9 @@ where
             // for Mutate::approve does not specify the result of subsequent calls.
             FuncId::Approve | FuncId::IncreaseAllowance => approve::<T, E>(env)?,
             FuncId::DecreaseAllowance => decrease_allowance(env)?,
+            FuncId::Burn => burn(env)?,
+            FuncId::Mint => mint(env)?,
+            
         }
 
         Ok(RetVal::Converging(0))
