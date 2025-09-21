@@ -44,7 +44,7 @@ frame-system = { version = "4.0.0-dev", git = "https://github.com/paritytech/pol
 pallet-transaction-payment = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 
 # These dependencies are used for the node template's RPCs
-jsonrpsee = { version = "0.16.2", features = ["server"] }
+jsonrpsee = { version = "0.24.8", features = ["server"] }
 sc-rpc = { version = "4.0.0-dev", git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 sp-api = { version = "4.0.0-dev", git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 sc-rpc-api = { version = "0.10.0-dev", git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
@@ -60,7 +60,7 @@ frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/pari
 
 # Local Dependencies
 lunes-runtime = { version = "4.0.0-dev", path = "../runtime" }
-node-primitives = { version = "2.0.0", path = "primitives" }
+node-primitives = { version = "2.0.0", path = "../primitives" }
 
 # CLI-specific dependencies
 try-runtime-cli = { version = "0.10.0-dev", optional = true, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
