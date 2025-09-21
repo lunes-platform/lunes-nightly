@@ -57,7 +57,7 @@ pub use pallet_staking::StakerStatus;
 pub use frame_support::{
 	dispatch::DispatchClass,
 	pallet_prelude::Get,
-	construct_runtime, 
+	construct_runtime,
 	parameter_types,
 	traits::{
 		ConstU128, ConstU32, ConstU64, ConstU8, KeyOwnerProofSystem, Randomness, StorageInfo,
@@ -257,12 +257,12 @@ impl pallet_balances::Config for Runtime {
 	type DustRemoval = ();
 	type AccountStore = System;
 	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
-	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;	
+	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
 pub struct WeightToFeeLunes;
 impl WeightToFeePolynomial for WeightToFeeLunes {
 	type Balance = Balance;
-	fn polynomial() -> WeightToFeeCoefficients<Self::Balance> {		
+	fn polynomial() -> WeightToFeeCoefficients<Self::Balance> {
 		smallvec![WeightToFeeCoefficient {
 			degree: 1,
 			negative: false,
@@ -288,10 +288,10 @@ impl OnUnbalanced<NegativeImbalance> for Author {
 pub struct TreasuryLunes;
 impl OnUnbalanced<NegativeImbalance> for TreasuryLunes {
 	fn on_nonzero_unbalanced(amount: NegativeImbalance) {
-		
+
 		let recipient: AccountId = hex![
 				"2c11d2aff81147e5522539c51c1cb87bae94a0865d214f3983f3557a6732f26a"
-			].into();		
+			].into();
 		Balances::resolve_creating(&recipient, amount);
 	}
 }
@@ -305,16 +305,16 @@ fn get_total_issuance<T: pallet_balances::Config>() -> Balance {
 pub struct DealWithFees;
 impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 	fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
-		if let Some(mut fees) = fees_then_tips.next() {			
-			
+		if let Some(mut fees) = fees_then_tips.next() {
+
 			if let Some(tips) = fees_then_tips.next() {
 				tips.merge_into(&mut fees);
 			}
-			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn 
-			let split_fee = fees.ration(25, 75);			
-			
+			// for fees, 12.5% to treasury, 75% to Node e and 12.5% to Burn
+			let split_fee = fees.ration(25, 75);
+
 			Author::on_unbalanced(split_fee.1);
-			
+
 			let total_issuance: Balance = get_total_issuance::<Runtime>();
 			if total_issuance > (50_000_000 * UNIT) {
 				let split_burn = split_fee.0.ration(50, 50);
@@ -544,7 +544,7 @@ pub struct StakingBenchmarkingConfig;
 impl pallet_staking::BenchmarkingConfig for StakingBenchmarkingConfig {
 	type MaxNominators = ConstU32<1000>;
 	type MaxValidators = ConstU32<1000>;
-	
+
 }
 impl pallet_authorship::Config for Runtime {
 	type FindAuthor = pallet_session::FindAccountFromAuthorIndex<Self, Aura>;
@@ -557,7 +557,7 @@ impl pallet_staking::Config for Runtime {
 	type CurrencyBalance = Balance;
 	type UnixTime = Timestamp;
 	type CurrencyToVote = U128CurrencyToVote;
-	
+
 	type RewardRemainder = TreasuryLunes; // TODO Treasury
 	type RuntimeEvent = RuntimeEvent;
 	type Slash = TreasuryLunes; // TODO Treasury send the slashed funds to the treasury.
@@ -705,7 +705,6 @@ impl pallet_contracts::Config for Runtime {
 	type CallStack = [pallet_contracts::Frame<Self>; 16];
 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Self>;
-	//type ChainExtension = ();
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
 	type Schedule = Schedule;
@@ -715,7 +714,6 @@ impl pallet_contracts::Config for Runtime {
 	type UnsafeUnstableInterface = ConstBool<false>;
 	type MaxDebugBufferLen = ConstU32<{ 2 * 1024 * 1024 }>;
 	type ChainExtension = Psp22Extension;
-	
 }
 
 parameter_types! {
@@ -1113,7 +1111,7 @@ impl pallet_scored_pool::Config for Runtime {
 	type Score = u64;
 	type ScoreOrigin = EnsureSigned<AccountId>;
 	type MaximumMembers = ConstU32<10>;
-}		
+}
 
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -1125,39 +1123,39 @@ construct_runtime!(
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
 		System: frame_system,
+		RandomnessCollectiveFlip: pallet_insecure_randomness_collective_flip,
 		Timestamp: pallet_timestamp,
 		Aura: pallet_aura,
 		Grandpa: pallet_grandpa,
 		Balances: pallet_balances,
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
-
+		// Include the custom logic from the pallet-template in the runtime.
+		TemplateModule: pallet_common,
 		Authorship: pallet_authorship,
-		Utility: pallet_utility,
-		Offences: pallet_offences,
-		// staking related pallets
-		ElectionProviderMultiPhase: pallet_election_provider_multi_phase,
-		Historical: pallet_session::historical::{Pallet},
 		Staking: pallet_staking,
 		Session: pallet_session,
-		VoterList: pallet_bags_list::<Instance1>,
-		Democracy: pallet_democracy,
+		ElectionProviderMultiPhase: pallet_election_provider_multi_phase,
+		Offences: pallet_offences,
+		Historical: pallet_session::historical::{Pallet},
+		Utility: pallet_utility,
 		Council: pallet_collective::<Instance1>,
 		TechnicalCommittee: pallet_collective::<Instance2>,
-		AllianceMotion: pallet_collective::<Instance3>,
+		Democracy: pallet_democracy,
 		Treasury: pallet_treasury,
 		Bounties: pallet_bounties,
 		ChildBounties: pallet_child_bounties,
 		Scheduler: pallet_scheduler,
 		Preimage: pallet_preimage,
 		Contracts: pallet_contracts,
-		RandomnessCollectiveFlip: pallet_insecure_randomness_collective_flip,
 		Assets: pallet_assets,
 		Nfts: pallet_nfts,
-		Recovery: pallet_recovery,
 		Identity: pallet_identity,
+		Recovery: pallet_recovery,
 		Indices: pallet_indices,
 		Nicks: pallet_nicks,
+		VoterList: pallet_bags_list::<Instance1>,
+		AllianceMotion: pallet_collective::<Instance3>,
 		ScoredPool: pallet_scored_pool,
 		Swap:pallet_atomic_swap,
 	}
@@ -1207,7 +1205,7 @@ mod benches {
 		[pallet_balances, Balances]
 		[pallet_timestamp, Timestamp]
 		[pallet_utility, Utility]
-		[pallet_offences, OffencesBench::<Runtime>]		
+		[pallet_offences, OffencesBench::<Runtime>]
 		[pallet_democracy, Democracy]
 		[pallet_collective, Council]
 		[pallet_treasury, Treasury]
@@ -1580,7 +1578,7 @@ impl_runtime_apis! {
 			Executive::try_execute_block(block, state_root_check, signature_check, select).expect("execute-block failed")
 		}
 	}
-	
+
 }
 
 #[cfg(test)]
