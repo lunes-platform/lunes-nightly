@@ -81,7 +81,6 @@ use pallet_transaction_payment::{ConstFeeMultiplier,CurrencyAdapter, Multiplier}
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
-use pallet_nfts::PalletFeatures;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -978,35 +977,6 @@ parameter_types! {
 	pub const MaxDeadlineDuration: BlockNumber = 12 * 30 * DAYS;
 }
 
-impl pallet_nfts::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-	type CollectionId = u32;
-	type ItemId = u32;
-	type Currency = Balances;
-	type ForceOrigin = frame_system::EnsureRoot<AccountId>;
-	type CollectionDeposit = CollectionDeposit;
-	type ItemDeposit = ItemDeposit;
-	type MetadataDepositBase = MetadataDepositBase;
-	type AttributeDepositBase = MetadataDepositBase;
-	type DepositPerByte = MetadataDepositPerByte;
-	type StringLimit = StringLimit;
-	type KeyLimit = KeyLimit;
-	type ValueLimit = ValueLimit;
-	type ApprovalsLimit = ApprovalsLimit;
-	type ItemAttributesApprovalsLimit = ItemAttributesApprovalsLimit;
-	type MaxTips = MaxTips;
-	type MaxDeadlineDuration = MaxDeadlineDuration;
-	type MaxAttributesPerCall = MaxAttributesPerCall;
-	type Features = Features;
-	type OffchainSignature = Signature;
-	type OffchainPublic = <Signature as traits::Verify>::Signer;
-	type WeightInfo = pallet_nfts::weights::SubstrateWeight<Runtime>;
-	#[cfg(feature = "runtime-benchmarks")]
-	type Helper = ();
-	type CreateOrigin = AsEnsureOriginWithArg<EnsureSigned<AccountId>>;
-	type Locker = ();
-}
-
 parameter_types! {
 	pub const ConfigDepositBase: Balance = 5 * UNIT;
 	pub const FriendDepositFactor: Balance = 50 * NANOUNIT;
@@ -1052,37 +1022,6 @@ impl pallet_identity::Config for Runtime {
 	type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
 }
 
-parameter_types! {
-	pub const IndexDeposit: Balance = 1 * UNIT;
-}
-
-impl pallet_indices::Config for Runtime {
-	type AccountIndex = AccountIndex;
-	type Currency = Balances;
-	type Deposit = IndexDeposit;
-	type RuntimeEvent = RuntimeEvent;
-	type WeightInfo = pallet_indices::weights::SubstrateWeight<Runtime>;
-}
-
-parameter_types! {
-	 // This parameter is used to configure a nick's minimum length.
-	pub const MinLengthNicks: u32 = 2;
-	 // This parameter is used to configure a nick's maximum length.n.
-	pub const MaxLengthNicks: u32 = 150;
-	// The amount required to reserve a nick.
-	pub const NickReservationFee: Balance = 1 * UNIT;
-}
-impl pallet_nicks::Config for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type Currency = Balances;
-    type ReservationFee = NickReservationFee;
-    type Slashed = Treasury;
-    type ForceOrigin = EnsureRoot<AccountId>;
-    type MinLength = MinLengthNicks;
-    type MaxLength = MaxLengthNicks;
-}
-
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -1117,11 +1056,8 @@ construct_runtime!(
 		Preimage: pallet_preimage,
 		Contracts: pallet_contracts,
 		Assets: pallet_assets,
-		Nfts: pallet_nfts,
 		Identity: pallet_identity,
 		Recovery: pallet_recovery,
-		Indices: pallet_indices,
-		Nicks: pallet_nicks,
 		VoterList: pallet_bags_list::<Instance1>,
 		AllianceMotion: pallet_collective::<Instance3>
 	}
@@ -1180,11 +1116,9 @@ mod benches {
 		[pallet_preimage, Preimage]
 		[pallet_contracts, Contracts]
 		[pallet_assets, Assets]
-		[pallet_nfts, Nfts]
 		[pallet_recovery, Recovery]
 		[pallet_identity, Identity]
-		[pallet_indices, Indices]
-		[pallet_nicks,Nicks]
+
 	);
 }
 
@@ -1357,50 +1291,6 @@ impl_runtime_apis! {
 	{
 		fn account_balances(account: AccountId) -> Vec<(u32, Balance)> {
 			Assets::account_balances(account)
-		}
-	}
-
-	impl pallet_nfts_runtime_api::NftsApi<Block, AccountId, u32, u32> for Runtime {
-		fn owner(collection: u32, item: u32) -> Option<AccountId> {
-			<Nfts as Inspect<AccountId>>::owner(&collection, &item)
-		}
-
-		fn collection_owner(collection: u32) -> Option<AccountId> {
-			<Nfts as Inspect<AccountId>>::collection_owner(&collection)
-		}
-
-		fn attribute(
-			collection: u32,
-			item: u32,
-			key: Vec<u8>,
-		) -> Option<Vec<u8>> {
-			<Nfts as Inspect<AccountId>>::attribute(&collection, &item, &key)
-		}
-
-		fn custom_attribute(
-			account: AccountId,
-			collection: u32,
-			item: u32,
-			key: Vec<u8>,
-		) -> Option<Vec<u8>> {
-			<Nfts as Inspect<AccountId>>::custom_attribute(
-				&account,
-				&collection,
-				&item,
-				&key,
-			)
-		}
-
-		fn system_attribute(
-			collection: u32,
-			item: u32,
-			key: Vec<u8>,
-		) -> Option<Vec<u8>> {
-			<Nfts as Inspect<AccountId>>::system_attribute(&collection, &item, &key)
-		}
-
-		fn collection_attribute(collection: u32, key: Vec<u8>) -> Option<Vec<u8>> {
-			<Nfts as Inspect<AccountId>>::collection_attribute(&collection, &key)
 		}
 	}
 

@@ -52,12 +52,9 @@ pallet-child-bounties = { default-features = false, git = "https://github.com/pa
 pallet-scheduler = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-preimage = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-assets = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-nfts = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-nfts-runtime-api = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-identity = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-recovery = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-indices = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-nicks = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
+pallet-offences = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-bags-list = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 
 # Additional sp-* dependencies that might be needed
@@ -114,8 +111,6 @@ std = [
     "pallet-nfts-runtime-api/std",
     "pallet-identity/std",
     "pallet-recovery/std",
-    "pallet-indices/std",
-    "pallet-nicks/std",
     "pallet-insecure-randomness-collective-flip/std",
     "sp-api/std",
     "sp-block-builder/std",
@@ -174,10 +169,7 @@ try-runtime = [
     "pallet-preimage/try-runtime",
     "pallet-contracts/try-runtime",
     "pallet-assets/try-runtime",
-    "pallet-nfts/try-runtime",
     "pallet-identity/try-runtime",
     "pallet-recovery/try-runtime",
-    "pallet-indices/try-runtime",
-    "pallet-nicks/try-runtime",
     "pallet-insecure-randomness-collective-flip/try-runtime",
 ]
