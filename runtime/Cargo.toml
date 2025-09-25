@@ -43,7 +43,6 @@ pallet-transaction-payment-rpc-runtime-api = { default-features = false, git = "
 pallet-session = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-staking = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-election-provider-multi-phase = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-offences = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-collective = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-democracy = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-treasury = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
