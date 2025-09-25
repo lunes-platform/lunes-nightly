@@ -54,7 +54,7 @@ pallet-assets = { default-features = false, git = "https://github.com/paritytech
 pallet-identity = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-recovery = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 pallet-offences = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
-pallet-bags-list = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
+#pallet-bags-list = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 
 # Additional sp-* dependencies that might be needed
 sp-io = { default-features = false, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
@@ -106,8 +106,6 @@ std = [
     "pallet-contracts/std",
     "pallet-contracts-proc-macro/std",
     "pallet-assets/std",
-    "pallet-nfts/std",
-    "pallet-nfts-runtime-api/std",
     "pallet-identity/std",
     "pallet-recovery/std",
     "pallet-insecure-randomness-collective-flip/std",
