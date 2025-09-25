@@ -611,13 +611,6 @@ impl pallet_session::historical::Config for Runtime {
 	type FullIdentificationOf = pallet_staking::ExposureOf<Runtime>;
 }
 
-impl pallet_utility::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-	type RuntimeCall = RuntimeCall;
-	type PalletsOrigin = OriginCaller;
-	type WeightInfo = pallet_utility::weights::SubstrateWeight<Runtime>;
-}
-
 impl pallet_offences::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type IdentificationTuple = pallet_session::historical::IdentificationTuple<Self>;
@@ -1089,30 +1082,6 @@ impl pallet_nicks::Config for Runtime {
     type MaxLength = MaxLengthNicks;
 }
 
-impl pallet_atomic_swap::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-	type SwapAction = pallet_atomic_swap::BalanceSwapAction<AccountId, Balances>;
-	type ProofLimit = ConstU32<1024>;
-}
-
-parameter_types! {
-	pub const CandidateDeposit: u64 = 25;
-}
-
-
-impl pallet_scored_pool::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-	type KickOrigin = EnsureSigned<AccountId>;
-	type MembershipInitialized =();//to do
-	type MembershipChanged = (); //to do
-	type Currency = Balances;
-	type CandidateDeposit = CandidateDeposit;
-	type Period = SignedPhase;
-	type Score = u64;
-	type ScoreOrigin = EnsureSigned<AccountId>;
-	type MaximumMembers = ConstU32<10>;
-}
-
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -1138,7 +1107,6 @@ construct_runtime!(
 		ElectionProviderMultiPhase: pallet_election_provider_multi_phase,
 		Offences: pallet_offences,
 		Historical: pallet_session::historical::{Pallet},
-		Utility: pallet_utility,
 		Council: pallet_collective::<Instance1>,
 		TechnicalCommittee: pallet_collective::<Instance2>,
 		Democracy: pallet_democracy,
@@ -1155,9 +1123,7 @@ construct_runtime!(
 		Indices: pallet_indices,
 		Nicks: pallet_nicks,
 		VoterList: pallet_bags_list::<Instance1>,
-		AllianceMotion: pallet_collective::<Instance3>,
-		ScoredPool: pallet_scored_pool,
-		Swap:pallet_atomic_swap,
+		AllianceMotion: pallet_collective::<Instance3>
 	}
 );
 
@@ -1204,7 +1170,6 @@ mod benches {
 		[frame_system, SystemBench::<Runtime>]
 		[pallet_balances, Balances]
 		[pallet_timestamp, Timestamp]
-		[pallet_utility, Utility]
 		[pallet_offences, OffencesBench::<Runtime>]
 		[pallet_democracy, Democracy]
 		[pallet_collective, Council]
@@ -1220,8 +1185,6 @@ mod benches {
 		[pallet_identity, Identity]
 		[pallet_indices, Indices]
 		[pallet_nicks,Nicks]
-		[pallet_scored_pool, ScoredPool]
-		[pallet_atomic_swap, Swap]
 	);
 }
 
