@@ -63,7 +63,7 @@ lunes-runtime = { version = "4.0.0-dev", path = "../runtime" }
 node-primitives = { version = "2.0.0", path = "../primitives" }
 
 # CLI-specific dependencies
-try-runtime-cli = { optional = true, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
+# try-runtime-cli = { optional = true, git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "stable2412" }
@@ -78,4 +78,4 @@ runtime-benchmarks = [
 ]
 # Enable features that allow the runtime to be tried and debugged. Name might be subject to change
 # in the near future.
-try-runtime = ["lunes-runtime/try-runtime", "try-runtime-cli/try-runtime"]
+try-runtime = ["lunes-runtime/try-runtime"]

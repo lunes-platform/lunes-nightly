@@ -41,8 +41,9 @@ pub enum Subcommand {
 	Benchmark(frame_benchmarking_cli::BenchmarkCmd),
 
 	/// Try some command against runtime state.
+	/// Note: try-runtime functionality is now integrated into the node binary
 	#[cfg(feature = "try-runtime")]
-	TryRuntime(try_runtime_cli::TryRuntimeCmd),
+	TryRuntime,
 
 	/// Try some command against runtime state. Note: `try-runtime` feature must be enabled.
 	#[cfg(not(feature = "try-runtime"))]
